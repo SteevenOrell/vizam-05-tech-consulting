@@ -1,6 +1,6 @@
 # Agent handoff — vizam-05-tech-consulting (Halvaren, VIZAM concept project 05)
 
-_Last updated: 2026-11-06 by the Slice 2 (delivery docs) agent_
+_Last updated: 2026-11-06 by the Phase D (security review + QA sign-off) agent_
 
 ## Objective
 Premium corporate site for a fictional international technology and business consulting firm ("Halvaren
@@ -43,7 +43,8 @@ Advisory"), built as a VIZAM portfolio concept. Fictional company: say so in the
 1. **Slice: final gate.** Commit the uncommitted work above (small logical commits). Run `npm ci`, `npm run lint`,
    `npm run typecheck`, `npm test`, Playwright e2e + axe, `npm run build`, `npm audit`, `node scripts/secret-scan.mjs`
    (tree + full history). Fix failures. Record real results in the table below.
-2. **Slice: delivery docs (DONE).** `docs/report.md` (architecture/design summary, status, exact commands with pass/fail,
+2. **Phase D: security review + QA sign-off (DONE, SIGN-OFF; see below).**
+2a. **Slice: delivery docs (DONE).** `docs/report.md` (architecture/design summary, status, exact commands with pass/fail,
    security review, performance/accessibility, limitations, 80–120 word portfolio blurb); finish `README.md`.
 3. **Coordinator:** QA review, re-run checks, fast-forward `vizam/initial-build`, history secret scan, push branch,
    open PR into `main` (no merge, no deploy).
@@ -72,8 +73,19 @@ E2E runs against `next start`, so `npm run build` must precede it (the build was
 - `npm ci`, `npm run dev` (port 3105), `npm run build && npm start` (port 3105).
 - Env var names: none required (site-media keys stay outside the repo).
 
+## Phase D verdict (2026-11-06): SIGN-OFF
+No critical, high or medium findings. Four low findings fixed (`a871032` industry enum, `187cc67` rate-limiter memory cap,
+`5bc91c6` + `a871032` forms use `method="post"` so personal data never reaches a URL, `d020cbf` menu Close button in the
+focus cycle) and the secret scan widened (`8e38347`). Accepted and documented in `docs/report.md` section 4: CSP
+`'unsafe-inline'` (nonces would force dynamic rendering), `x-forwarded-for` rate-limit key (safe on Vercel), client-side
+`startedAt`, HSTS `preload`. Content integrity, media (15 Unsplash WebP, all credited), public-repo hygiene, <250 px lock
+and screenshots checked.
+
+Phase D re-run after fixes: lint pass; typecheck pass; `npm test` 40/40; build pass (42 static pages); Playwright
+79/79 (12.0 min, port 3105); `npm audit` 0 vulnerabilities; secret scan pass (127 files, 18 commits, 17 rules).
+
 ## Next step
-Phase D: security review + final QA sign-off (separate Opus run).
+Coordinator: re-run checks, fast-forward vizam/initial-build, push, PR.
 
 ## Waiting for approval
 - Vercel link/preview and any production deploy (Steeven).

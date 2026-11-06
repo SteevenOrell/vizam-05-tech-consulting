@@ -18,8 +18,8 @@ concept, not a client commission._
 
 ## 2. Development status
 
-All planned pages and components are built, tested and committed on the build branch. Not yet done: Phase D security review
-and final QA sign-off (separate run), integration into `vizam/initial-build`, push, PR, Vercel preview, and any deploy.
+All planned pages and components are built, tested and committed on the build branch. Phase D security review and QA
+sign-off are done (verdict: SIGN-OFF, see section 4). Not yet done: integration into `vizam/initial-build`, push, PR, Vercel preview, and any deploy.
 Lighthouse / performance measurement has **not** been run.
 
 ## 3. Checks (run 2026-11-06, real output, Slice 1)
@@ -35,6 +35,10 @@ Lighthouse / performance measurement has **not** been run.
 | Audit | `npm audit` | 0 vulnerabilities |
 | Secret scan | `node scripts/secret-scan.mjs` | pass: 126 tree files, 9 commits (all refs), 13 rules, none found |
 | Lighthouse / performance | not run | **not run** |
+
+Phase D re-run (2026-11-06, after the Phase D fixes, commit `8e38347`): `npm run lint` pass; `npm run typecheck` pass;
+`npm test` pass, 4 files, 40 tests; `npm run build` pass, 42 static pages; `npx playwright test` pass, 79/79 (12.0 min);
+`npm audit` 0 vulnerabilities; `node scripts/secret-scan.mjs` pass, 127 tree files, 18 commits, 17 rules, none found.
 
 E2E runs against `next start`, so `npm run build` must precede it. Browser checks use Playwright headless Chromium at 240
 (500 px lock), 390, 768 and 1440 px, with overflow checks from 300 px and equal-height card checks.
@@ -59,6 +63,50 @@ This is a developer self-review plus automated checks. It is not an independent 
 - Not covered: penetration testing, CSRF review beyond Next.js server-action defaults, production configuration. A public
   production launch with real form delivery would need an independent review.
 
+### Phase D review (2026-11-06, separate Opus run)
+
+Code read: `lib/forms/*`, both form components, `next.config.ts`, `app/layout.tsx`, `lib/seo.ts`, robots, sitemap, the
+four dynamic routes, filter/pagination helpers, header/menu, motion helpers, error pages, `scripts/secret-scan.mjs`.
+
+Fixed:
+- **Low, unbounded `industry` field** (`lib/forms/schemas.ts`): the consultation `industry` accepted any non-empty string of
+  any length. Now an enum of the offered options; a unit test keeps it in sync with `lib/content/industries.ts`.
+- **Low, personal data could reach a URL** (`components/forms/*-form.tsx`): the `<form>` elements had no `method`, so a submit
+  before hydration or without JS issued a GET with name, email and message in the query string (history, logs, referrers).
+  Both forms now use `method="post"`.
+- **Low, rate-limiter memory** (`lib/forms/rate-limit.ts`): pruning removed only expired keys, so a flood of distinct
+  addresses inside one window grew the map without bound. Oldest entries are now dropped past the 5000-key cap.
+- **Low, a11y: menu focus trap** (`components/layout/site-header.tsx`): the trap cycled through panel links only, so the
+  visible Close button was unreachable by Tab (Escape was the only keyboard exit). The button is now part of the cycle.
+- **Tooling, secret-scan gaps** (`scripts/secret-scan.mjs`): added encrypted private keys, npm/GitLab/SendGrid/Resend tokens,
+  more env names (Envato, Unsplash secret, Vercel, Resend), `.claude/`, `CLAUDE.md`, `.npmrc`, key stores, and any
+  non-WebP media file. Verified it fires on fake samples, then re-ran clean on tree and history.
+
+Verified, no change needed: server-side Zod on both actions with length limits on every free-text field (name 100,
+email 200, organisation 120, role 100, message 2000, challenge 3000) and unknown keys stripped; honeypot and 2-second
+timing check answer with an indistinguishable demo receipt; nothing is stored, logged or echoed (error messages are
+fixed strings, no `console` calls); client keys are salted SHA-256 hashes. Only three `dangerouslySetInnerHTML` uses: a
+constant `js` class script and two JSON-LD blocks serialised by `jsonLdString` (escapes `<`) from static content. No
+markdown/HTML rendering of content (typed blocks rendered as React nodes). No redirects or user-controlled URLs; query
+parameters pass through an allow-list (`allowed`) and `paginate` clamps the page. All four `[slug]` routes use
+`generateStaticParams`, `dynamicParams = false` and `notFound()`. Robots and sitemap cover all 10 static and 26 dynamic
+routes. Error pages show only the digest. `npm audit`: 0 vulnerabilities.
+
+Accepted (documented, not changed):
+- **CSP `'unsafe-inline'`** (`next.config.ts`). Scripts: Next's App Router streams inline `self.__next_f` bootstrap
+  scripts whose contents differ per page, so hashes cannot be precomputed; the only alternative is a per-request nonce set
+  in `proxy.ts`, which forces every page to render dynamically and gives up static generation and CDN caching. Adding a
+  hash for our one inline script would make browsers ignore `'unsafe-inline'` and break Next's scripts. Styles: Motion and
+  React set inline `style` attributes. Residual risk is low: no user content is rendered, there are no third-party scripts,
+  and `object-src 'none'`, `base-uri 'self'`, `form-action 'self'` and `frame-ancestors 'none'` are set. Revisit with
+  nonces if the site ever renders user-supplied content.
+- **Rate-limit key from `x-forwarded-for`.** On Vercel the platform overwrites this header, so it cannot be spoofed; on a
+  self-hosted proxy that passes client headers through, the limit can be bypassed by rotating the header. Per-instance
+  memory is already documented as best-effort.
+- **Timing check uses a client-supplied `startedAt`.** Deliberately simple spam friction, not a security control.
+- **HSTS with `preload`** is harmless on `*.vercel.app`; drop `preload` before using a custom domain that is not meant to
+  be submitted to the preload list.
+
 ## 5. Performance and accessibility
 
 - **Accessibility:** Playwright + axe (WCAG 2.2 AA rules) run in the e2e suite, which passed 79/79. Semantic landmarks, skip link,
@@ -74,6 +122,9 @@ This is a developer self-review plus automated checks. It is not an independent 
 - Fictional content: company, people, offices, careers and metrics are invented. Case studies are illustrative scenarios.
 - Rate limiter is in-memory and per instance; CSP uses `'unsafe-inline'`; default site origin is `https://halvaren.example`.
 - No Lighthouse run; no manual assistive-technology testing.
+- Without JavaScript the forms do not submit (they POST to the static page and nothing is processed); the demo forms need JS.
+- Rate-limit key trusts `x-forwarded-for`, which is safe on Vercel but spoofable behind a proxy that passes it through.
+- Canonical URLs, sitemap and robots point to `https://halvaren.example` until `NEXT_PUBLIC_SITE_URL` is set.
 
 ## 7. Items that need Steeven
 
