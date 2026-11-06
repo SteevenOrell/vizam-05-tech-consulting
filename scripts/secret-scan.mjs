@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 // Regex secret scan of the working tree (tracked + untracked, not ignored) and the full git history.
 // Prints file paths, commits and rule names only — never the matched values.
+// Also flags forbidden paths (.env*, .claude/, CLAUDE.md, keys, .secrets/) and non-WebP media.
 // Usage: node scripts/secret-scan.mjs   (exit code 1 when anything is found)
 import { execFileSync } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
 
 const rules = [
-  ["private-key", /-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----/],
+  ["private-key", /-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP |ENCRYPTED )?PRIVATE KEY(?: BLOCK)?-----/],
+  ["npm-token", /\bnpm_[A-Za-z0-9]{36}\b/],
+  ["gitlab-token", /\bglpat-[A-Za-z0-9_-]{20,}\b/],
+  ["sendgrid-key", /\bSG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}\b/],
+  ["resend-key", /\bre_[A-Za-z0-9]{8,}_[A-Za-z0-9]{16,}\b/],
   ["aws-access-key", /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/],
   ["github-token", /\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{36,}\b|\bgithub_pat_[A-Za-z0-9_]{60,}\b/],
   ["openai-key", /\bsk-(?:proj-)?[A-Za-z0-9_-]{32,}\b/],
@@ -20,10 +25,25 @@ const rules = [
   ["jwt", /\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b/],
   [
     "assigned-secret",
-    /\b(?:api[_-]?key|secret|access[_-]?key|auth[_-]?token|password|client[_-]?secret|UNSPLASH_ACCESS_KEY|PIXABAY_API_KEY|ELEVENLABS_API_KEY|OPENAI_API_KEY)\b\s*[:=]\s*["']?[A-Za-z0-9_\-/+]{16,}/i,
+    /\b(?:api[_-]?key|secret|access[_-]?key|auth[_-]?token|password|client[_-]?secret|token|private[_-]?key|UNSPLASH_ACCESS_KEY|UNSPLASH_SECRET_KEY|PIXABAY_API_KEY|ELEVENLABS_API_KEY|OPENAI_API_KEY|ENVATO_[A-Z_]*(?:TOKEN|KEY)|VERCEL_TOKEN|RESEND_API_KEY)\b\s*[:=]\s*["']?[A-Za-z0-9_\-/+.]{16,}/i,
   ],
 ];
-const forbiddenPaths = [/(^|\/)\.env(\.|$)(?!example)/, /\.pem$/, /\.p12$/, /(^|\/)\.secrets\//, /media\.env$/, /service-account.*\.json$/i];
+const forbiddenPaths = [
+  /(^|\/)\.env(\.|$)(?!example)/,
+  /(^|\/)\.claude\//,
+  /(^|\/)CLAUDE\.md$/,
+  /(^|\/)\.npmrc$/,
+  /(^|\/)id_(rsa|ed25519|ecdsa)$/,
+  /\.(key|pfx|jks|keystore)$/i,
+  /\.pem$/,
+  /\.p12$/,
+  /(^|\/)\.secrets\//,
+  /media\.env$/,
+  /service-account.*\.json$/i,
+];
+// Public-repo media rule: only compressed WebP (plus code-made SVG) may be committed, never originals.
+const nonWebpMedia = /\.(png|jpe?g|gif|tiff?|heic|avif|psd|ai|eps|mp4|mov|webm|wav|mp3|m4a|zip)$/i;
+const isForbidden = (f) => forbiddenPaths.some((r) => r.test(f)) || nonWebpMedia.test(f);
 const binary = /\.(webp|png|jpe?g|gif|ico|woff2?|ttf|zip|pdf)$/i;
 
 const git = (args) => execFileSync("git", args, { encoding: "utf8", maxBuffer: 512 * 1024 * 1024 });
@@ -32,7 +52,7 @@ const findings = [];
 // 1. Working tree
 const files = git(["ls-files", "--cached", "--others", "--exclude-standard"]).split("\n").filter(Boolean);
 for (const f of files) {
-  if (forbiddenPaths.some((r) => r.test(f))) findings.push(`tree: forbidden file path ${f}`);
+  if (isForbidden(f)) findings.push(`tree: forbidden file path ${f}`);
   if (binary.test(f) || f === "package-lock.json") continue;
   let text;
   try {
@@ -52,7 +72,7 @@ for (const line of log.split("\n")) {
   if (line.startsWith("__COMMIT__ ")) commit = line.slice(11);
   else if (line.startsWith("+++ b/")) {
     file = line.slice(6);
-    if (forbiddenPaths.some((r) => r.test(file))) findings.push(`history ${commit}: forbidden file path ${file}`);
+    if (isForbidden(file)) findings.push(`history ${commit}: forbidden file path ${file}`);
   } else if (line.startsWith("+") && !line.startsWith("+++") && !binary.test(file) && file !== "package-lock.json") {
     for (const [name, re] of rules) if (re.test(line)) findings.push(`history ${commit}: ${name} in ${file}`);
   }
