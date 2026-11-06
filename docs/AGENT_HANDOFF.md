@@ -1,6 +1,6 @@
 # Agent handoff — vizam-05-tech-consulting (Halvaren, VIZAM concept project 05)
 
-_Last updated: 2026-11-06 by the Project 05 coordinating Claude session_
+_Last updated: 2026-11-06 by the Slice 1 (final gate) agent_
 
 ## Objective
 Premium corporate site for a fictional international technology and business consulting firm ("Halvaren
@@ -49,25 +49,31 @@ Advisory"), built as a VIZAM portfolio concept. Fictional company: say so in the
    open PR into `main` (no merge, no deploy).
 
 ## Last verified checks
+Run 2026-11-06 on branch `worktree-agent-a21c44a2fb6535321` (Slice 1, final gate). All results were seen as real output.
 | Check | Command | Result | When |
 |---|---|---|---|
-| Lint | `npm run lint` | not recorded | — |
-| Typecheck | `npm run typecheck` | not recorded | — |
-| Unit | `npm test` | not recorded | — |
-| E2E + axe | `npx playwright test` | not recorded | — |
-| Build | `npm run build` | not recorded | — |
-| Audit | `npm audit` | not recorded | — |
-| Secret scan | `node scripts/secret-scan.mjs` | not recorded | — |
+| Install | `npm ci` | pass, 445 packages, 0 vulnerabilities (about 8 min) | 2026-11-06 |
+| Lint | `npm run lint` | pass, no warnings | 2026-11-06 |
+| Typecheck | `npm run typecheck` | pass | 2026-11-06 |
+| Unit | `npm test` | pass, 4 files, 38 tests | 2026-11-06 |
+| Build | `npm run build` | pass, 42 static pages | 2026-11-06 |
+| E2E + axe | `npx playwright test` (production build, port 3105) | pass, 79/79 (8.1 min) | 2026-11-06 |
+| Audit | `npm audit` | 0 vulnerabilities | 2026-11-06 |
+| Secret scan | `node scripts/secret-scan.mjs` | pass: 126 tree files, 9 commits (all refs), 13 rules, none found | 2026-11-06 |
+
+E2E runs against `next start`, so `npm run build` must precede it (the build was run first).
 
 ## Known issues and risks
-- None recorded yet; checks above still to run.
+- `npm ci`, `npm run build` and the e2e suite are slow on this machine (minutes each).
+- `eslint@9.39.5` prints a deprecation warning on install (no functional impact).
+- Forms are demo-only (no email provider). No Lighthouse run yet; performance review is open for the report.
 
 ## Setup
 - `npm ci`, `npm run dev` (port 3105), `npm run build && npm start` (port 3105).
 - Env var names: none required (site-media keys stay outside the repo).
 
 ## Next step
-Slice 1 (final gate) from "Pending" above.
+Slice 2 (delivery docs): write `docs/report.md` and finish `README.md` (see "Pending" item 2).
 
 ## Waiting for approval
 - Vercel link/preview and any production deploy (Steeven).
