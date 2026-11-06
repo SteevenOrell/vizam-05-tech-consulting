@@ -34,7 +34,15 @@ export function createRateLimiter({ limit, windowMs, maxKeys = 5000 }: { limit: 
   return {
     check(rawKey, now = Date.now()) {
       const key = hashKey(rawKey);
-      if (hits.size > maxKeys) prune(now);
+      if (hits.size > maxKeys) {
+        prune(now);
+        // Hard cap: if every key is still active (e.g. a flood of distinct addresses), drop the oldest
+        // entries so memory stays bounded. Those clients simply start a fresh window.
+        for (const k of hits.keys()) {
+          if (hits.size <= maxKeys) break;
+          hits.delete(k);
+        }
+      }
       const recent = (hits.get(key) ?? []).filter((t) => now - t < windowMs);
       if (recent.length >= limit) {
         hits.set(key, recent);
