@@ -1,0 +1,16 @@
+export const mainRoutes = [
+  "/",
+  "/about",
+  "/services",
+  "/services/technology-strategy",
+  "/industries",
+  "/industries/health-life-sciences",
+  "/case-studies",
+  "/case-studies/logistics-event-platform",
+  "/insights",
+  "/insights/recovery-not-backup",
+  "/careers",
+  "/contact",
+  "/consultation",
+  "/privacy",
+];
