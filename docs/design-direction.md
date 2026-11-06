@@ -58,9 +58,9 @@ coordinates, decision records), a porcelain/ink palette with a single phosphor a
 | `slate` | `#5A6370` | Muted text / captions on paper (5.4:1 on paper) |
 | `rule` | `#CFCCC2` | Hairlines on paper |
 | `rule-dark` | `#2C333B` | Hairlines on ink |
-| `signal` | `#0A6B58` | Accent on light backgrounds (links, focus, markers; 6.1:1 on paper) |
-| `phosphor` | `#7DF0C4` | Accent on dark backgrounds only (13:1 on ink) |
-| `danger` | `#A3261B` | Form errors (6.4:1 on paper) |
+| `signal` | `#0A6B58` | Accent on light backgrounds (links, focus, markers; 5.7:1 on paper) |
+| `phosphor` | `#7DF0C4` | Accent on dark backgrounds only (13.8:1 on ink) |
+| `danger` | `#A3261B` | Form errors (6.5:1 on paper) |
 
 Rules: one accent per surface; phosphor never on paper; large dark bands (`ink`) for emphasis sections (method,
 CTA, footer). All text pairs meet WCAG 2.2 AA (4.5:1) or better.
