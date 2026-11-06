@@ -71,7 +71,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={(e) => void handleSubmit(onSubmit)(e)} noValidate className="relative space-y-6" aria-describedby="contact-demo" data-testid="contact-form">
+    <form method="post" onSubmit={(e) => void handleSubmit(onSubmit)(e)} noValidate className="relative space-y-6" aria-describedby="contact-demo" data-testid="contact-form">
       <div id="contact-demo">
         <DemoBanner />
       </div>
