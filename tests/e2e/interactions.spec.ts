@@ -12,8 +12,17 @@ test.describe("mobile menu", () => {
     await expect(page.getByRole("button", { name: "Close menu" })).toHaveAttribute("aria-expanded", "true");
     // Focus starts inside the dialog and stays there when tabbing past the end.
     await expect(dialog.getByRole("link").first()).toBeFocused();
-    for (let i = 0; i < 12; i++) await page.keyboard.press("Tab");
-    expect(await dialog.evaluate((d) => d.contains(document.activeElement))).toBe(true);
+    // Focus cycles through the dialog and the visible Close button, never into the page behind.
+    const closeButton = page.getByRole("button", { name: "Close menu" });
+    let reachedClose = false;
+    for (let i = 0; i < 12; i++) {
+      await page.keyboard.press("Tab");
+      const inDialog = await dialog.evaluate((d) => d.contains(document.activeElement));
+      const onClose = await closeButton.evaluate((b) => b === document.activeElement);
+      expect(inDialog || onClose).toBe(true);
+      reachedClose ||= onClose;
+    }
+    expect(reachedClose).toBe(true);
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
     await expect(page.getByRole("button", { name: "Open menu" })).toBeFocused();

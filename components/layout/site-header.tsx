@@ -53,11 +53,19 @@ export function SiteHeader() {
         return;
       }
       if (e.key !== "Tab" || !panelRef.current) return;
-      const focusables = Array.from(panelRef.current.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"));
+      // The close (toggle) button sits in the header, outside the panel: keep it in the cycle so keyboard
+      // users can always reach a visible way out, not only Escape.
+      const focusables = [
+        ...(toggleRef.current ? [toggleRef.current] : []),
+        ...Array.from(panelRef.current.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")),
+      ];
       if (!focusables.length) return;
       const firstEl = focusables[0];
       const lastEl = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === firstEl) {
+      if (!focusables.includes(document.activeElement as HTMLElement)) {
+        e.preventDefault();
+        (e.shiftKey ? lastEl : firstEl).focus();
+      } else if (e.shiftKey && document.activeElement === firstEl) {
         e.preventDefault();
         lastEl.focus();
       } else if (!e.shiftKey && document.activeElement === lastEl) {
