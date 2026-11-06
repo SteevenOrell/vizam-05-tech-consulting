@@ -48,6 +48,17 @@ export const consultationAreas = [
   "product-delivery",
 ] as const;
 
+/** Industry values the consultation form offers (kept in sync with lib/content/industries.ts by a unit test). */
+export const industryOptions = [
+  "financial-services",
+  "energy-utilities",
+  "health-life-sciences",
+  "manufacturing",
+  "transport-logistics",
+  "public-sector",
+  "other",
+] as const;
+
 export const organisationSizes = ["Under 250 people", "250–1,000", "1,000–10,000", "Over 10,000"] as const;
 export const timeframes = ["Exploring", "Within 3 months", "3–6 months", "6+ months"] as const;
 
@@ -60,7 +71,7 @@ export const consultationSchema = z.object({
     .min(2, "Please enter your organisation.")
     .max(120, "Please keep the organisation name under 120 characters."),
   role: z.string().trim().max(100, "Please keep your role under 100 characters.").optional().or(z.literal("")),
-  industry: z.string().trim().min(1, "Please choose an industry."),
+  industry: z.enum(industryOptions, { error: "Please choose an industry." }),
   size: z.enum(organisationSizes, { error: "Please choose an organisation size." }),
   areas: z
     .array(z.enum(consultationAreas))

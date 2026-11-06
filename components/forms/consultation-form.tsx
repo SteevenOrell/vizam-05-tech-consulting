@@ -48,7 +48,7 @@ export function ConsultationForm({
       email: "",
       organisation: "",
       role: "",
-      industry: "",
+      industry: undefined,
       size: undefined,
       areas: initialArea ? ([initialArea] as ConsultationInput["areas"]) : [],
       timeframe: undefined,
@@ -98,7 +98,7 @@ export function ConsultationForm({
   }
 
   return (
-    <form onSubmit={(e) => void handleSubmit(onSubmit)(e)} noValidate className="relative space-y-12" data-testid="consultation-form">
+    <form method="post" onSubmit={(e) => void handleSubmit(onSubmit)(e)} noValidate className="relative space-y-12" data-testid="consultation-form">
       <DemoBanner />
       {formError && <FormError message={formError} />}
       <Honeypot ref={honeypot} name="company_website" defaultValue="" />

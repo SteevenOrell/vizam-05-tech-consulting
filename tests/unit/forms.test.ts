@@ -1,7 +1,8 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import { MIN_FILL_MS, processSubmission } from "@/lib/forms/process";
 import { createRateLimiter, hashKey } from "@/lib/forms/rate-limit";
-import { consultationSchema, contactSchema } from "@/lib/forms/schemas";
+import { consultationSchema, contactSchema, industryOptions } from "@/lib/forms/schemas";
+import { industries } from "@/lib/content/industries";
 
 const NOW = 1_800_000_000_000;
 const validContact = {
@@ -46,6 +47,10 @@ describe("schemas", () => {
     expect(consultationSchema.safeParse({ ...validConsultation, areas: [] }).success).toBe(false);
     expect(consultationSchema.safeParse({ ...validConsultation, areas: ["unknown"] }).success).toBe(false);
   });
+  it("only accepts known industries, matching the content model", () => {
+    expect([...industryOptions].sort()).toEqual([...industries.map((i) => i.slug), "other"].sort());
+    expect(consultationSchema.safeParse({ ...validConsultation, industry: "x".repeat(5000) }).success).toBe(false);
+  });
   it("trims whitespace", () => {
     const r = contactSchema.safeParse({ ...validContact, name: "  Jane Doe  " });
     expect(r.success && r.data.name).toBe("Jane Doe");
@@ -72,6 +77,11 @@ describe("rate limiter", () => {
     for (let i = 0; i < 5; i++) rl.check(`k${i}`, 0);
     rl.check("late", 1000);
     expect(rl.size()).toBe(1);
+  });
+  it("keeps memory bounded when many distinct keys are active", () => {
+    const rl = createRateLimiter({ limit: 1, windowMs: 60_000, maxKeys: 3 });
+    for (let i = 0; i < 50; i++) rl.check(`k${i}`, i);
+    expect(rl.size()).toBeLessThanOrEqual(4);
   });
 });
 
