@@ -1,6 +1,6 @@
 # Agent handoff — vizam-05-tech-consulting (Halvaren, VIZAM concept project 05)
 
-_Last updated: 2026-11-06 by the Slice 1 (final gate) agent_
+_Last updated: 2026-11-06 by the Slice 2 (delivery docs) agent_
 
 ## Objective
 Premium corporate site for a fictional international technology and business consulting firm ("Halvaren
@@ -43,7 +43,7 @@ Advisory"), built as a VIZAM portfolio concept. Fictional company: say so in the
 1. **Slice: final gate.** Commit the uncommitted work above (small logical commits). Run `npm ci`, `npm run lint`,
    `npm run typecheck`, `npm test`, Playwright e2e + axe, `npm run build`, `npm audit`, `node scripts/secret-scan.mjs`
    (tree + full history). Fix failures. Record real results in the table below.
-2. **Slice: delivery docs.** `docs/report.md` (architecture/design summary, status, exact commands with pass/fail,
+2. **Slice: delivery docs (DONE).** `docs/report.md` (architecture/design summary, status, exact commands with pass/fail,
    security review, performance/accessibility, limitations, 80–120 word portfolio blurb); finish `README.md`.
 3. **Coordinator:** QA review, re-run checks, fast-forward `vizam/initial-build`, history secret scan, push branch,
    open PR into `main` (no merge, no deploy).
@@ -66,14 +66,14 @@ E2E runs against `next start`, so `npm run build` must precede it (the build was
 ## Known issues and risks
 - `npm ci`, `npm run build` and the e2e suite are slow on this machine (minutes each).
 - `eslint@9.39.5` prints a deprecation warning on install (no functional impact).
-- Forms are demo-only (no email provider). No Lighthouse run yet; performance review is open for the report.
+- Forms are demo-only (no email provider). No Lighthouse run yet; stated as not run in `docs/report.md`.
 
 ## Setup
 - `npm ci`, `npm run dev` (port 3105), `npm run build && npm start` (port 3105).
 - Env var names: none required (site-media keys stay outside the repo).
 
 ## Next step
-Slice 2 (delivery docs): write `docs/report.md` and finish `README.md` (see "Pending" item 2).
+Phase D: security review + final QA sign-off (separate Opus run).
 
 ## Waiting for approval
 - Vercel link/preview and any production deploy (Steeven).
