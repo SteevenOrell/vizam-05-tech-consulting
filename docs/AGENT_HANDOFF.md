@@ -29,27 +29,35 @@ Advisory"), built as a VIZAM portfolio concept. Fictional company: say so in the
   `tests/unit/*` (components, content, filters, forms), `tests/e2e/*` (a11y, forms, interactions, layout,
   navigation, routes).
 
-## Pending (priority order)
-1. Run and fix: `npm run lint`, `npm run typecheck`, `npm test`, Playwright e2e + axe; commit tests.
-2. Playwright screenshots at 240/390/768/1440 px (incl. <250 px 500 px lock, no horizontal scroll from 300 px,
-   equal-size cards); commit compact WebP set to `docs/screenshots/`.
-3. `npm run build`, `npm audit`, secret scan of tree and full git history.
-4. Write `README.md`, `docs/report.md` (incl. 80–120 word portfolio blurb), `docs/handoff.md` (or point it here).
-5. Coordinator: re-run checks, fast-forward `vizam/initial-build`, secret scan, push branch, open PR into `main`
-   (do not merge, no deploy).
+## State at 2026-11-06 (coordinator update after the first build agent stopped at its usage limit again)
+- Last commit: `7954666` (Add Vitest unit tests, Playwright e2e/axe/layout suites and handoff file).
+- Uncommitted work to keep and commit: `.gitignore` (+`/screenshots-out/`), `README.md` rewrite,
+  `docs/design-direction.md`, `eslint.config.mjs`, `lib/seo.ts`, `package.json` + lock (`overrides` pinning
+  `minimatch ^11.0.1` under `@typescript-eslint/typescript-estree`, presumably an `npm audit` fix),
+  `tests/e2e/layout.spec.ts`, `tests/e2e/navigation.spec.ts`, `docs/handoff.md` (pointer to this file),
+  `docs/screenshots/*.webp` (24 files: home, services-data-ai, case-studies, insights, consultation at
+  240/390/768/1440 + menus + `lock-240-menu`), `scripts/secret-scan.mjs`.
+- The agent was about to run the full final gate before writing `docs/report.md`; no results were recorded.
+
+## Pending (priority order) — slices
+1. **Slice: final gate.** Commit the uncommitted work above (small logical commits). Run `npm ci`, `npm run lint`,
+   `npm run typecheck`, `npm test`, Playwright e2e + axe, `npm run build`, `npm audit`, `node scripts/secret-scan.mjs`
+   (tree + full history). Fix failures. Record real results in the table below.
+2. **Slice: delivery docs.** `docs/report.md` (architecture/design summary, status, exact commands with pass/fail,
+   security review, performance/accessibility, limitations, 80–120 word portfolio blurb); finish `README.md`.
+3. **Coordinator:** QA review, re-run checks, fast-forward `vizam/initial-build`, history secret scan, push branch,
+   open PR into `main` (no merge, no deploy).
 
 ## Last verified checks
 | Check | Command | Result | When |
 |---|---|---|---|
-| Lint | `npm run lint` | not run (verified) | — |
-| Typecheck | `npm run typecheck` | not run (verified) | — |
-| Unit | `npm test` | not run (verified) | — |
-| E2E + axe | `npx playwright test` | not run (verified) | — |
-| Build | `npm run build` | not run (verified) | — |
-| Audit | `npm audit` | not run (verified) | — |
-| Secret scan | — | not run | — |
-
-The build agent stopped at the 5-hour usage limit while checking pages visually; any results it saw are not recorded.
+| Lint | `npm run lint` | not recorded | — |
+| Typecheck | `npm run typecheck` | not recorded | — |
+| Unit | `npm test` | not recorded | — |
+| E2E + axe | `npx playwright test` | not recorded | — |
+| Build | `npm run build` | not recorded | — |
+| Audit | `npm audit` | not recorded | — |
+| Secret scan | `node scripts/secret-scan.mjs` | not recorded | — |
 
 ## Known issues and risks
 - None recorded yet; checks above still to run.
@@ -59,7 +67,7 @@ The build agent stopped at the 5-hour usage limit while checking pages visually;
 - Env var names: none required (site-media keys stay outside the repo).
 
 ## Next step
-In the worktree, run `npm run lint && npm run typecheck && npm test`, fix failures, then commit the test setup.
+Slice 1 (final gate) from "Pending" above.
 
 ## Waiting for approval
 - Vercel link/preview and any production deploy (Steeven).
