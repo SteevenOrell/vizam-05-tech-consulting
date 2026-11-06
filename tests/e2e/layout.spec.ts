@@ -2,7 +2,8 @@ import { expect, test, type Page } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import { mainRoutes } from "./routes";
 
-const SHOTS = "test-results/screens";
+// Outside test-results/, which Playwright empties on every run.
+const SHOTS = "screenshots-out";
 mkdirSync(SHOTS, { recursive: true });
 
 async function settle(page: Page) {
@@ -80,9 +81,15 @@ test.describe("below 250 px the layout locks at 500 px", () => {
     await page.getByRole("button", { name: "Open menu" }).click();
     const menu = page.locator("#mobile-menu");
     await expect(menu).toBeVisible();
-    const box = await menu.evaluate((el) => ({ w: el.getBoundingClientRect().width, right: getComputedStyle(el).right }));
+    // getComputedStyle().right resolves to a used pixel value, so check geometry: anchored left, 500 px wide,
+    // overflowing the 240 px viewport (which only happens when right is released to auto).
+    const box = await menu.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return { w: r.width, left: r.left, right: r.right };
+    });
     expect(box.w).toBe(500);
-    expect(box.right).toBe("auto");
+    expect(box.left).toBe(0);
+    expect(box.right).toBe(500);
     await page.screenshot({ path: `${SHOTS}/lock-240-menu.png` });
   });
 });

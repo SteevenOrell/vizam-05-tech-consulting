@@ -13,6 +13,7 @@ test.describe("routes", () => {
       expect(await page.title()).toContain("Halvaren");
       await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.{40,}/);
       await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
+      await expect(page.locator('meta[property="og:image"]').first()).toHaveAttribute("content", /^https?:\/\//);
       await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
       expect(errors).toEqual([]);
     });
