@@ -1,15 +1,42 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight, FlaskConical, Info } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 import type { ImageRef } from "@/lib/content/types";
 
+/**
+ * Aurora Ledger primitives. Usage rules: docs/design-direction.md §10.
+ * Variant names from the first theme are kept so pages that are not restyled yet keep working.
+ */
+
+/** Small mono label in brackets, e.g. "( 02 · Services )". The number is coloured with the accent. */
 export function SectionIndex({ n, label, dark = false }: { n: string; label: string; dark?: boolean }) {
   return (
-    <p className={`mono-label flex items-center gap-3 ${dark ? "text-mist" : "text-slate"}`}>
-      <span className={dark ? "text-phosphor" : "text-signal"}>§ {n}</span>
-      <span aria-hidden="true" className={`h-px w-8 ${dark ? "bg-rule-dark" : "bg-rule"}`} />
+    <p className={`mono-label flex flex-wrap items-center gap-x-2 ${dark ? "text-mist" : "text-slate"}`}>
+      <span aria-hidden="true">(</span>
+      <span className={dark ? "text-phosphor" : "text-signal"}>{n}</span>
+      <span aria-hidden="true">·</span>
       <span>{label}</span>
+      <span aria-hidden="true">)</span>
+    </p>
+  );
+}
+
+/** Free-form bracketed micro label, e.g. "( Independent technology consulting )". */
+export function MicroLabel({
+  children,
+  dark = false,
+  className = "",
+}: {
+  children: ReactNode;
+  dark?: boolean;
+  className?: string;
+}) {
+  return (
+    <p className={`mono-label ${dark ? "text-mist" : "text-slate"} ${className}`}>
+      <span aria-hidden="true">( </span>
+      {children}
+      <span aria-hidden="true"> )</span>
     </p>
   );
 }
@@ -17,6 +44,7 @@ export function SectionIndex({ n, label, dark = false }: { n: string; label: str
 type LinkButtonProps = {
   href: string;
   children: ReactNode;
+  /** primary: ink pill on light · secondary: outline on light · on-dark: ice pill on dark · ghost-dark: outline on dark */
   variant?: "primary" | "secondary" | "on-dark" | "ghost-dark";
   icon?: "arrow" | "external";
   className?: string;
@@ -25,15 +53,15 @@ type LinkButtonProps = {
 export function LinkButton({ href, children, variant = "primary", icon = "arrow", className = "" }: LinkButtonProps) {
   const styles = {
     primary: "bg-ink text-paper hover:bg-signal",
-    secondary: "border border-ink text-ink hover:bg-ink hover:text-paper",
-    "on-dark": "bg-phosphor text-ink hover:bg-paper",
-    "ghost-dark": "border border-rule-dark text-paper hover:border-phosphor hover:text-phosphor",
+    secondary: "border border-ink/80 text-ink hover:bg-ink hover:text-paper",
+    "on-dark": "bg-ice text-ink hover:bg-paper",
+    "ghost-dark": "border border-ice/35 text-paper hover:border-phosphor hover:text-phosphor",
   }[variant];
   const Icon = icon === "arrow" ? ArrowRight : ArrowUpRight;
   return (
     <Link
       href={href}
-      className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-[2px] px-5 py-3 text-[0.95rem] font-medium transition-colors duration-200 ${styles} ${className}`}
+      className={`group inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-6 py-3 font-mono text-[0.8rem] font-medium uppercase tracking-[0.06em] transition-colors duration-200 ${styles} ${className}`}
     >
       {children}
       <Icon aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -41,7 +69,7 @@ export function LinkButton({ href, children, variant = "primary", icon = "arrow"
   );
 }
 
-/** Photograph framed as a "plate": registration marks at the corners and a mono caption. */
+/** Photograph in a rounded frame with a mono caption. */
 export function Plate({
   image,
   plate,
@@ -59,26 +87,13 @@ export function Plate({
   aspect?: string;
   dark?: boolean;
 }) {
-  const mark = dark ? "text-mist" : "text-slate";
   return (
     <figure className={`relative ${className}`}>
-      <div className={`relative overflow-hidden bg-paper-2 ${aspect}`}>
-        <Image
-          src={image.src}
-          alt={image.alt}
-          fill
-          sizes={sizes}
-          priority={priority}
-          className="object-cover"
-        />
+      <div className={`relative overflow-hidden rounded-[var(--radius-card)] bg-paper-2 ${aspect}`}>
+        <Image src={image.src} alt={image.alt} fill sizes={sizes} priority={priority} className="object-cover" />
       </div>
-      {(["-left-1.5 -top-1.5", "-right-1.5 -top-1.5", "-left-1.5 -bottom-1.5", "-right-1.5 -bottom-1.5"] as const).map((pos) => (
-        <span key={pos} aria-hidden="true" className={`pointer-events-none absolute ${pos} ${mark} font-mono text-xs leading-none`}>
-          +
-        </span>
-      ))}
       <figcaption className={`mono-label mt-3 flex justify-between gap-4 ${dark ? "text-mist" : "text-slate"}`}>
-        <span>{plate ? `Pl. ${plate}` : "Pl."}</span>
+        <span>{plate ? `( Pl. ${plate} )` : "( Pl. )"}</span>
         <span className="truncate">{image.caption}</span>
       </figcaption>
     </figure>
@@ -88,7 +103,7 @@ export function Plate({
 export function Tag({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center border px-2 py-1 font-mono text-[0.7rem] uppercase tracking-[0.06em] ${
+      className={`inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[0.7rem] uppercase tracking-[0.06em] ${
         dark ? "border-rule-dark text-mist" : "border-rule text-graphite"
       }`}
     >
@@ -99,7 +114,7 @@ export function Tag({ children, dark = false }: { children: ReactNode; dark?: bo
 
 export function IllustrativeBadge({ long = false }: { long?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-1.5 bg-ink px-2 py-1 font-mono text-[0.7rem] uppercase tracking-[0.06em] text-phosphor">
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 font-mono text-[0.7rem] uppercase tracking-[0.06em] text-phosphor">
       <FlaskConical aria-hidden="true" className="size-3.5" />
       {long ? "Illustrative scenario — not a real client" : "Illustrative scenario"}
     </span>
@@ -108,7 +123,7 @@ export function IllustrativeBadge({ long = false }: { long?: boolean }) {
 
 export function Notice({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <aside className="flex gap-3 border border-ink bg-paper-2 p-4 text-[0.95rem]" aria-label={title}>
+    <aside className="card flex gap-3 p-5 text-[0.95rem]" aria-label={title}>
       <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-signal" />
       <div>
         <p className="font-medium">{title}</p>
@@ -124,5 +139,64 @@ export function TextLink({ href, children, className = "" }: { href: string; chi
       <span className="link-underline">{children}</span>
       <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
     </Link>
+  );
+}
+
+/**
+ * Rounded card surface. `tone`: paper card on light sections, ink card on dark ones, glass for text over a
+ * GradientField. Always `h-full flex flex-col` so cards in a grid row share one height.
+ */
+export function Card({
+  as: Component = "div",
+  tone = "paper",
+  className = "",
+  children,
+  ...rest
+}: {
+  as?: ElementType;
+  tone?: "paper" | "ink" | "glass";
+  className?: string;
+  children: ReactNode;
+} & Record<`data-${string}`, string>) {
+  const base = { paper: "card", ink: "card-ink on-dark", glass: "card-glass on-dark" }[tone];
+  return (
+    <Component className={`${base} relative flex h-full flex-col overflow-hidden p-6 md:p-7 ${className}`} {...rest}>
+      {children}
+    </Component>
+  );
+}
+
+/**
+ * Section wrapper with the four surface tones. "aurora" is a dark section with a GradientField behind it; pass
+ * the field as `background` so the content stays on top.
+ */
+export function Section({
+  tone = "paper",
+  background,
+  className = "",
+  innerClassName = "",
+  children,
+  ...rest
+}: {
+  tone?: "paper" | "paper-2" | "ink" | "aurora";
+  background?: ReactNode;
+  className?: string;
+  innerClassName?: string;
+  children: ReactNode;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  id?: string;
+}) {
+  const surface = {
+    paper: "bg-paper text-ink",
+    "paper-2": "bg-paper-2 text-ink",
+    ink: "on-dark bg-ink text-paper",
+    aurora: "on-dark bg-ink text-paper",
+  }[tone];
+  return (
+    <section className={`relative overflow-hidden ${surface} ${className}`} {...rest}>
+      {background}
+      <div className={`container-x section-y relative ${innerClassName}`}>{children}</div>
+    </section>
   );
 }

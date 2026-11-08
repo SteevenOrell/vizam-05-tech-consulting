@@ -1,32 +1,65 @@
 @import "tailwindcss";
 
+/*
+ * Theme "Aurora Ledger" (docs/design-direction.md). Token names from the first theme (paper, ink, signal,
+ * phosphor…) are kept and remapped, so pages that are not restyled yet inherit the new palette.
+ */
 @theme {
-  --color-paper: #f2f1ec;
-  --color-paper-2: #e8e6df;
-  --color-ink: #0c1014;
-  --color-ink-2: #1a2027;
-  --color-graphite: #3a424c;
-  --color-slate: #5a6370;
-  --color-rule: #cfccc2;
-  --color-rule-dark: #2c333b;
-  --color-signal: #0a6b58;
-  --color-phosphor: #7df0c4;
-  --color-mist: #a9b2bc;
-  --color-danger: #a3261b;
+  /* Light surfaces */
+  --color-paper: #f4f1ea;
+  --color-paper-2: #e9e5db;
+  --color-surface: #fbfaf7;
+  --color-rule: #d3cec2;
+  /* Midnight base */
+  --color-ink: #070b1c;
+  --color-ink-2: #0f1631;
+  --color-ink-3: #18214a;
+  --color-rule-dark: #26305a;
+  /* Text greys */
+  --color-graphite: #333a4d;
+  --color-slate: #556075;
+  --color-mist: #a9b3cb;
+  /* Aurora */
+  --color-signal: #2340d6; /* cobalt for text, links and focus on light surfaces */
+  --color-cobalt: #2f4ff0; /* graphic cobalt (fills, gradients) */
+  --color-teal: #1fb5d6; /* electric teal, graphics and accents on dark only */
+  --color-phosphor: #7fe3f0; /* cyan-ice accent for text and focus on dark */
+  --color-ice: #d3f1f8; /* pale ice: buttons on dark, highlights */
+  --color-danger: #b3261e;
 
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  --font-serif: var(--font-newsreader), Georgia, serif;
 
+  /* Sized so the longest uppercase word of the hero heading fits its column; larger from lg up (see :root). */
+  --text-hero: clamp(1.9rem, 9.4vw, 4.75rem);
+  --text-hero--line-height: 0.92;
   --text-display-xl: clamp(2.6rem, 7.2vw, 6.6rem);
-  --text-display-xl--line-height: 0.98;
+  --text-display-xl--line-height: 0.96;
   --text-display: clamp(2.1rem, 4.6vw, 4.2rem);
-  --text-display--line-height: 1.02;
-  --text-h2: clamp(1.7rem, 3vw, 2.6rem);
-  --text-h2--line-height: 1.1;
+  --text-display--line-height: 1;
+  --text-h2: clamp(1.75rem, 3.2vw, 2.75rem);
+  --text-h2--line-height: 1.06;
+  --text-micro: 0.72rem;
+  --text-micro--line-height: 1.4;
+
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+  --radius-field: 0.75rem;
 
   --ease-instrument: cubic-bezier(0.22, 1, 0.36, 1);
   --breakpoint-xs: 30rem;
+}
+
+:root {
+  /* Height of the floating pill header including its top offset; heroes that sit under it use this. */
+  --header-h: 4.75rem;
+  --aurora: linear-gradient(118deg, #0a1236 0%, #2340e8 38%, #1fb5d6 72%, #c9eff7 100%);
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --text-hero: clamp(3.5rem, 5.5vw, 6.5rem);
+  }
 }
 
 @layer base {
@@ -49,7 +82,7 @@
   }
 
   ::selection {
-    background: var(--color-phosphor);
+    background: var(--color-ice);
     color: var(--color-ink);
   }
 
@@ -67,8 +100,8 @@
   h3,
   h4 {
     text-wrap: balance;
-    letter-spacing: -0.03em;
-    font-weight: 500;
+    letter-spacing: -0.035em;
+    font-weight: 600;
   }
 
   p {
@@ -142,14 +175,59 @@
     background-size: 100% 1px;
   }
 
+  /* ---- Aurora Ledger primitives (see docs/design-direction.md §10) ---- */
+
+  .bg-aurora {
+    background-image: var(--aurora);
+  }
+  /* Thin aurora hairline, e.g. under the pill header or between bento cards. */
+  .aurora-rule {
+    height: 1px;
+    background-image: linear-gradient(90deg, transparent, #2f4ff0 25%, #1fb5d6 60%, #d3f1f8 85%, transparent);
+  }
+
+  /* Rounded card surfaces. Equal height comes from `h-full` on the card and `grid` on the list. */
+  .card {
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-rule) 80%, transparent);
+  }
+  .card-ink {
+    border-radius: var(--radius-card);
+    background: var(--color-ink-2);
+    border: 1px solid var(--color-rule-dark);
+    color: var(--color-paper);
+  }
+  /* Translucent panel for text on top of a GradientField: the solid-enough backing keeps AA contrast. */
+  .card-glass {
+    border-radius: var(--radius-card);
+    background: color-mix(in srgb, var(--color-ink) 82%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-ice) 16%, transparent);
+    color: var(--color-paper);
+  }
+
+  .pill {
+    border-radius: 999px;
+  }
+
+  /* GradientField layers (components/ui/gradient-field.tsx). Gradients only, no filter blur. */
+  .gf-wash {
+    position: absolute;
+    inset: 0;
+  }
+  .gf-mosaic {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   .prose-article {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
+    font-size: 1.125rem;
     line-height: 1.7;
     max-width: 68ch;
   }
   .prose-article h2 {
-    font-family: var(--font-sans);
     font-size: 1.5rem;
     line-height: 1.25;
     margin-top: 2.75rem;
@@ -189,6 +267,17 @@
   .js [data-draw]:not(.is-drawn) {
     transform: scaleY(0);
     animation: draw-fallback 0.6s ease-out 2.5s forwards;
+  }
+  /* Hero glyph halves start apart; GSAP brings them together, CSS does it after 2.5 s if scripts fail. */
+  .js [data-glyph]:not(.is-assembled) [data-half] {
+    opacity: 0;
+    animation: glyph-fallback 0.6s ease-out 2.5s forwards;
+  }
+}
+
+@keyframes glyph-fallback {
+  to {
+    opacity: 1;
   }
 }
 
