@@ -55,7 +55,7 @@ export function LinkButton({ href, children, variant = "primary", icon = "arrow"
     primary: "bg-ink text-paper hover:bg-signal",
     secondary: "border border-ink/80 text-ink hover:bg-ink hover:text-paper",
     "on-dark": "bg-ice text-ink hover:bg-paper",
-    "ghost-dark": "border border-ice/35 text-paper hover:border-phosphor hover:text-phosphor",
+    "ghost-dark": "border border-ice/35 bg-ink/55 text-paper hover:border-phosphor hover:text-phosphor",
   }[variant];
   const Icon = icon === "arrow" ? ArrowRight : ArrowUpRight;
   return (

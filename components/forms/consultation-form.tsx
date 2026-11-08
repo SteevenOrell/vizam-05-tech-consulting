@@ -6,14 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { submitConsultation } from "@/lib/forms/actions";
 import { consultationSchema, organisationSizes, timeframes, type ConsultationInput } from "@/lib/forms/schemas";
-import { DemoBanner, DemoReceipt, Field, FormError, Honeypot, Select, TextArea, TextInput, describedBy } from "./fields";
+import { DemoBanner, DemoReceipt, Field, FormError, Honeypot, Select, TextArea, TextInput, describedBy, submitClass } from "./fields";
 
 type Option = { slug: string; title: string };
 
 function Legend({ n, children }: { n: string; children: string }) {
   return (
-    <legend className="mb-5 flex w-full items-center gap-3 border-b border-ink pb-3">
-      <span className="font-mono text-sm text-signal">{n}</span>
+    <legend className="mb-5 flex w-full items-center gap-3 border-b border-rule pb-3">
+      <span className="inline-flex h-7 min-w-9 items-center justify-center rounded-full bg-ink px-2 font-mono text-xs text-ice">{n}</span>
       <span className="text-[1.25rem] tracking-[-0.02em]">{children}</span>
     </legend>
   );
@@ -159,7 +159,7 @@ export function ConsultationForm({
           {services.map((s) => (
             <label
               key={s.slug}
-              className="flex min-h-12 cursor-pointer items-center gap-3 border border-rule bg-paper px-4 py-3 transition-colors has-[:checked]:border-ink has-[:checked]:bg-paper-2 hover:border-ink"
+              className="flex min-h-12 cursor-pointer items-center gap-3 rounded-[var(--radius-field)] border border-graphite/30 bg-paper px-4 py-3 transition-colors has-[:checked]:border-signal has-[:checked]:bg-ice/60 hover:border-ink"
             >
               <input type="checkbox" value={s.slug} className="size-5 shrink-0 accent-signal" {...register("areas")} />
               <span>{s.title}</span>
@@ -213,7 +213,7 @@ export function ConsultationForm({
       <button
         type="submit"
         disabled={pending}
-        className="group inline-flex min-h-12 items-center gap-2 rounded-[2px] bg-ink px-6 py-3 font-medium text-paper transition-colors hover:bg-signal disabled:opacity-70"
+        className={submitClass}
       >
         {pending ? (
           <>

@@ -11,11 +11,11 @@ export function Pagination({
   hrefFor: (page: number) => string;
 }) {
   if (totalPages <= 1) return null;
-  const base = "inline-flex min-h-11 min-w-11 items-center justify-center border px-3 text-sm transition-colors";
+  const base = "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border px-4 font-mono text-[0.78rem] uppercase tracking-[0.05em] transition-colors";
   return (
-    <nav aria-label="Pagination" className="mt-14 flex items-center justify-between gap-4 border-t border-ink pt-6">
+    <nav aria-label="Pagination" className="mt-14 flex items-center justify-between gap-4 border-t border-rule pt-6">
       {page > 1 ? (
-        <Link href={hrefFor(page - 1)} className={`${base} gap-1 border-rule hover:border-ink`} rel="prev">
+        <Link href={hrefFor(page - 1)} className={`${base} gap-1 border-rule hover:border-ink hover:bg-paper-2`} rel="prev">
           <ChevronLeft aria-hidden="true" className="size-4" /> Previous
         </Link>
       ) : (
@@ -30,7 +30,7 @@ export function Pagination({
               href={hrefFor(p)}
               aria-label={`Page ${p}`}
               aria-current={p === page ? "page" : undefined}
-              className={`${base} font-mono ${p === page ? "border-ink bg-ink text-paper" : "border-rule hover:border-ink"}`}
+              className={`${base} font-mono ${p === page ? "border-ink bg-ink text-ice" : "border-rule hover:border-ink hover:bg-paper-2"}`}
             >
               {p}
             </Link>
@@ -38,7 +38,7 @@ export function Pagination({
         ))}
       </ol>
       {page < totalPages ? (
-        <Link href={hrefFor(page + 1)} className={`${base} gap-1 border-rule hover:border-ink`} rel="next">
+        <Link href={hrefFor(page + 1)} className={`${base} gap-1 border-rule hover:border-ink hover:bg-paper-2`} rel="next">
           Next <ChevronRight aria-hidden="true" className="size-4" />
         </Link>
       ) : (

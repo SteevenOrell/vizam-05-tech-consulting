@@ -4,7 +4,7 @@ import { CheckCircle2, AlertTriangle } from "lucide-react";
 import { forwardRef, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 
 export const inputClass =
-  "block w-full rounded-[2px] border border-graphite/50 bg-paper px-3.5 py-3 text-[1rem] text-ink placeholder:text-slate/80 transition-colors focus:border-ink focus:outline-2 focus:outline-offset-1 focus:outline-signal aria-[invalid=true]:border-danger";
+  "block w-full rounded-[var(--radius-field)] border border-graphite/45 bg-paper px-4 py-3 text-[1rem] text-ink placeholder:text-slate/80 transition-colors focus:border-ink focus:outline-2 focus:outline-offset-1 focus:outline-signal aria-[invalid=true]:border-danger";
 
 export function Field({
   id,
@@ -71,7 +71,7 @@ export const Honeypot = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInp
 
 export function DemoBanner() {
   return (
-    <p className="flex items-start gap-2 border-l-2 border-signal bg-paper-2 px-4 py-3 text-sm text-graphite">
+    <p className="flex items-start gap-3 rounded-[var(--radius-field)] bg-paper-2 px-4 py-3 text-sm text-graphite">
       <span className="mono-label mt-0.5 shrink-0 text-signal">Demo form</span>
       <span>
         Submissions are validated on the server and then discarded. Nothing is sent, stored or logged, because Halvaren
@@ -83,8 +83,8 @@ export function DemoBanner() {
 
 export function DemoReceipt({ reference, onReset, title }: { reference: string; onReset: () => void; title: string }) {
   return (
-    <div className="border border-ink bg-paper" role="status" aria-live="polite" data-testid="demo-receipt">
-      <div className="flex items-center justify-between gap-3 bg-ink px-5 py-3">
+    <div className="card overflow-hidden" role="status" aria-live="polite" data-testid="demo-receipt">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-ink px-5 py-3">
         <p className="mono-label text-phosphor">Demo receipt · {reference}</p>
         <p className="mono-label text-mist">Not delivered</p>
       </div>
@@ -101,7 +101,7 @@ export function DemoReceipt({ reference, onReset, title }: { reference: string; 
         <button
           type="button"
           onClick={onReset}
-          className="mt-6 inline-flex min-h-11 items-center rounded-[2px] border border-ink px-4 font-medium transition-colors hover:bg-ink hover:text-paper"
+          className="mt-6 inline-flex min-h-11 items-center rounded-full border border-ink px-5 font-mono text-[0.8rem] font-medium uppercase tracking-[0.06em] transition-colors hover:bg-ink hover:text-paper"
         >
           Start a new demo submission
         </button>
@@ -112,9 +112,13 @@ export function DemoReceipt({ reference, onReset, title }: { reference: string; 
 
 export function FormError({ message }: { message: string }) {
   return (
-    <div role="alert" className="flex items-start gap-2 border border-danger bg-paper px-4 py-3 text-danger" data-testid="form-error">
+    <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-field)] border border-danger bg-surface px-4 py-3 text-danger" data-testid="form-error">
       <AlertTriangle aria-hidden="true" className="mt-0.5 size-5 shrink-0" />
       <p>{message}</p>
     </div>
   );
 }
+
+/** Pill submit button shared by both forms. */
+export const submitClass =
+  "group inline-flex min-h-12 items-center gap-2.5 rounded-full bg-ink px-6 py-3 font-mono text-[0.8rem] font-medium uppercase tracking-[0.06em] text-paper transition-colors hover:bg-signal disabled:opacity-70";

@@ -11,13 +11,13 @@ export function RolesAccordion({ roles }: { roles: Role[] }) {
   const baseId = useId();
 
   return (
-    <ul className="border-t border-ink" data-testid="roles">
+    <ul className="space-y-3" data-testid="roles">
       {roles.map((r) => {
         const isOpen = open === r.slug;
         const panelId = `${baseId}-${r.slug}-panel`;
         const buttonId = `${baseId}-${r.slug}-button`;
         return (
-          <li key={r.slug} className="border-b border-rule">
+          <li key={r.slug} className="card overflow-hidden">
             <h3>
               <button
                 id={buttonId}
@@ -25,11 +25,11 @@ export function RolesAccordion({ roles }: { roles: Role[] }) {
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpen(isOpen ? null : r.slug)}
-                className="group grid w-full grid-cols-[1fr_auto] items-center gap-4 py-6 text-left md:grid-cols-[minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_auto] md:gap-8"
+                className="group grid w-full grid-cols-[1fr_auto] items-center gap-4 px-5 py-5 text-left md:px-7 md:grid-cols-[minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_auto] md:gap-8"
               >
                 <span className="text-[1.3rem] leading-tight tracking-[-0.02em] md:text-[1.5rem]">
                   {r.title}
-                  <span className="ml-3 inline-block align-middle bg-paper-2 px-1.5 py-0.5 font-mono text-[0.68rem] uppercase tracking-[0.06em] text-graphite">
+                  <span className="ml-3 inline-block rounded-full bg-ink px-2 py-0.5 align-middle font-mono text-[0.68rem] uppercase tracking-[0.06em] text-ice">
                     Demo role
                   </span>
                 </span>
@@ -37,7 +37,7 @@ export function RolesAccordion({ roles }: { roles: Role[] }) {
                 <span className="hidden text-graphite md:block">{r.location}</span>
                 <span
                   aria-hidden="true"
-                  className="inline-flex size-10 items-center justify-center border border-rule transition-colors group-hover:border-ink"
+                  className="inline-flex size-10 items-center justify-center rounded-full border border-rule transition-colors group-hover:border-ink group-hover:bg-paper-2"
                 >
                   <Plus className={`size-4 transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`} />
                 </span>
@@ -55,7 +55,7 @@ export function RolesAccordion({ roles }: { roles: Role[] }) {
                   transition={{ duration: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="grid gap-8 pb-8 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-8">
+                  <div className="grid gap-8 px-5 pb-8 md:px-7 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-8">
                     <div>
                       <p className="mono-label text-slate md:hidden">
                         {r.team} · {r.location}
@@ -80,7 +80,7 @@ export function RolesAccordion({ roles }: { roles: Role[] }) {
                           ))}
                         </ul>
                       </div>
-                      <p className="border-l-2 border-signal pl-3 text-sm text-graphite sm:col-span-2">
+                      <p className="rounded-[var(--radius-field)] bg-ice/55 px-3 py-2 text-sm text-graphite sm:col-span-2">
                         Demo listing: this role is fictional and is not open for applications.
                       </p>
                     </div>

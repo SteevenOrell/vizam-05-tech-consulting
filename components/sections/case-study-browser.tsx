@@ -31,8 +31,8 @@ function FilterGroup({
   params: URLSearchParams;
 }) {
   const chip = (active: boolean) =>
-    `inline-flex min-h-10 items-center border px-3 py-1.5 text-sm transition-colors ${
-      active ? "border-ink bg-ink text-paper" : "border-rule bg-paper text-graphite hover:border-ink hover:text-ink"
+    `inline-flex min-h-10 items-center rounded-full border px-4 py-1.5 font-mono text-[0.76rem] uppercase tracking-[0.05em] transition-colors ${
+      active ? "border-ink bg-ink text-ice" : "border-graphite/30 bg-paper text-graphite hover:border-ink hover:text-ink"
     }`;
   return (
     <div role="group" aria-labelledby={`filter-${param}`}>
@@ -90,7 +90,7 @@ export function CaseStudyBrowser({
 
   return (
     <div>
-      <div className="grid gap-8 border-y border-ink py-8 lg:grid-cols-2">
+      <div className="card grid gap-8 p-5 md:p-7 lg:grid-cols-2">
         <FilterGroup label="Filter by industry" param="industry" options={industries} current={industry} params={params} />
         <FilterGroup label="Filter by service" param="service" options={services} current={service} params={params} />
       </div>
@@ -100,10 +100,10 @@ export function CaseStudyBrowser({
       </p>
 
       {results.length === 0 ? (
-        <div className="mt-8 border border-dashed border-rule p-10 text-center" data-testid="empty-state">
+        <div className="mt-8 rounded-[var(--radius-card)] border border-dashed border-graphite/40 p-10 text-center" data-testid="empty-state">
           <p className="text-[1.3rem]">No scenario matches both filters.</p>
           <p className="mt-2 text-graphite">Try another combination, or clear the filters.</p>
-          <Link href="/case-studies" scroll={false} replace className="mt-6 inline-flex font-medium text-signal underline">
+          <Link href="/case-studies" scroll={false} replace className="mt-6 inline-flex min-h-11 items-center font-medium text-signal underline">
             Clear filters
           </Link>
         </div>

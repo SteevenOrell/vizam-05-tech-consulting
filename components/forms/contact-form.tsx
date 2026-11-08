@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { submitContact } from "@/lib/forms/actions";
 import { contactSchema, contactTopics, type ContactInput } from "@/lib/forms/schemas";
-import { DemoBanner, DemoReceipt, Field, FormError, Honeypot, Select, TextArea, TextInput, describedBy } from "./fields";
+import { DemoBanner, DemoReceipt, Field, FormError, Honeypot, Select, TextArea, TextInput, describedBy, submitClass } from "./fields";
 
 type Values = ContactInput;
 
@@ -157,7 +157,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="group inline-flex min-h-12 items-center gap-2 rounded-[2px] bg-ink px-6 py-3 font-medium text-paper transition-colors hover:bg-signal disabled:opacity-70"
+        className={submitClass}
       >
         {pending ? (
           <>
