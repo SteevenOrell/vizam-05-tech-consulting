@@ -123,7 +123,7 @@ export function IllustrativeBadge({ long = false }: { long?: boolean }) {
 
 export function Notice({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <aside className="card flex gap-3 p-5 text-[0.95rem]" aria-label={title}>
+    <aside className="card flex gap-3 p-5 text-[0.95rem] text-ink" aria-label={title}>
       <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-signal" />
       <div>
         <p className="font-medium">{title}</p>

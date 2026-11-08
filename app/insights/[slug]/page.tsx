@@ -5,6 +5,7 @@ import { InsightCard } from "@/components/sections/cards";
 import { CtaBand } from "@/components/sections/cta-band";
 import { Breadcrumbs } from "@/components/sections/page-header";
 import { RevealText } from "@/components/motion/reveal-text";
+import { GradientField } from "@/components/ui/gradient-field";
 import { Plate, Tag } from "@/components/ui/primitives";
 import { getInsight, insights, sortedInsights } from "@/lib/content/insights";
 import { site } from "@/lib/content/site";
@@ -78,9 +79,9 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
   return (
     <>
       <article>
-        <header className="relative border-b border-rule">
-          <div className="grid-hairlines pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
-          <div className="container-x relative pb-12 pt-10 md:pt-14">
+        <header className="relative overflow-hidden border-b border-rule bg-paper">
+          <GradientField tone="ice" focus={[0.95, 0.1]} columns={22} seed={19} />
+          <div className="container-x relative pb-12 pt-8 md:pt-12">
             <Breadcrumbs
               items={[
                 { name: "Insights", path: "/insights" },
@@ -88,7 +89,7 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
               ]}
             />
             <div className="mt-12 max-w-4xl">
-              <p className="mono-label flex flex-wrap gap-x-3 gap-y-1 text-slate">
+              <p className="mono-label flex flex-wrap gap-x-3 gap-y-1 text-graphite">
                 <span className="text-signal">{insight.category}</span>
                 <span aria-hidden="true">·</span>
                 <time dateTime={insight.date}>{formatDate(insight.date)}</time>
@@ -112,7 +113,7 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
           </div>
           <aside className="lg:col-span-3 lg:col-start-10" aria-label="Article details">
             <div className="lg:sticky lg:top-28">
-              <h2 className="mono-label text-slate">Topics</h2>
+              <h2 className="mono-label text-slate">( Topics )</h2>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {insight.topics.map((t) => (
                   <Tag key={t}>{t}</Tag>
@@ -131,12 +132,12 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(articleLd) }} />
       </article>
 
-      <section className="section-y border-t border-rule bg-paper-2" aria-labelledby="related-title">
-        <div className="container-x">
-          <h2 id="related-title" className="text-h2">
+      <section className="bg-paper-2" aria-labelledby="related-title">
+        <div className="container-x section-y">
+          <h2 id="related-title" className="text-display">
             Keep reading.
           </h2>
-          <ul className="mt-10 grid gap-x-6 gap-y-12 md:grid-cols-3">
+          <ul className="mt-10 grid gap-4 md:grid-cols-3">
             {related.map((r) => (
               <li key={r.slug}>
                 <InsightCard insight={r} />

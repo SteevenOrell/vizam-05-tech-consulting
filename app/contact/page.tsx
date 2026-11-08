@@ -17,13 +17,16 @@ export default function ContactPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Contact", path: "/contact" }]}
-        index="§ Contact"
+        index="Contact"
+        tone="ink"
+        focus={[0.9, 0.95]}
+        seed={31}
         title="Start with a short note."
         lead="For general enquiries, media and partnerships. If you already have a decision in mind, the consultation request asks better questions."
       />
-      <section className="section-y pt-14 md:pt-20" aria-labelledby="form-title">
-        <div className="container-x grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+      <section className="bg-paper" aria-labelledby="form-title">
+        <div className="container-x section-y grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="card p-5 md:p-9 lg:col-span-7">
             <h2 id="form-title" className="sr-only">
               Contact form
             </h2>
@@ -31,7 +34,7 @@ export default function ContactPage() {
           </div>
           <aside className="lg:col-span-4 lg:col-start-9" aria-label="Other ways to reach us">
             <SectionIndex n="—" label="Details" />
-            <dl className="mt-6 space-y-6 border-t border-ink pt-6">
+            <dl className="card mt-6 space-y-6 p-6">
               <div>
                 <dt className="mono-label text-slate">Email (fictional)</dt>
                 <dd className="mt-1 font-mono">{site.email}</dd>
@@ -55,10 +58,10 @@ export default function ContactPage() {
                 </dd>
               </div>
             </dl>
-            <div className="mt-10 border border-ink p-5">
+            <div className="card-ink on-dark mt-6 p-6">
               <p className="font-medium">Weighing a specific decision?</p>
-              <p className="mt-1 text-sm text-graphite">The consultation request helps us prepare a useful first session.</p>
-              <Link href="/consultation" className="link-underline mt-3 inline-block font-medium text-signal">
+              <p className="mt-1 text-sm text-mist">The consultation request helps us prepare a useful first session.</p>
+              <Link href="/consultation" className="link-underline mt-3 inline-block font-medium text-phosphor">
                 Request a consultation →
               </Link>
             </div>

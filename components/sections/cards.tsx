@@ -8,6 +8,9 @@ import { getService } from "@/lib/content/services";
 import type { CaseStudy, Industry, Insight, Service } from "@/lib/content/types";
 import { formatDate } from "@/lib/format";
 
+/** With six cards on a three-column grid, wide cards at 0, 3 and 5 make three full rows (2+1, 1+2, 1+2). */
+const FEATURE_SPANS = new Set([0, 3, 5]);
+
 const hoverLift = "transition duration-300 ease-[var(--ease-instrument)] hover:-translate-y-0.5 hover:border-ink";
 
 /**
@@ -27,7 +30,7 @@ export function ServicesIndex({
   return (
     <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-testid="services-index">
       {items.map((s, i) => (
-        <li key={s.slug} className={feature && i === 0 ? "lg:col-span-2" : ""}>
+        <li key={s.slug} className={feature && FEATURE_SPANS.has(i) ? "lg:col-span-2" : ""}>
           <Link
             href={`/services/${s.slug}`}
             data-card=""
