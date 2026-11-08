@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { DrawLines } from "@/components/motion/draw-lines";
+import { ArrowDown } from "lucide-react";
+import { HeroGlyph } from "@/components/motion/hero-glyph";
 import { HighlightText } from "@/components/motion/highlight-text";
 import { MethodTimeline } from "@/components/motion/method-timeline";
 import { RevealText } from "@/components/motion/reveal-text";
 import { IndustryCard, InsightCard, ScenarioCard, ServicesIndex } from "@/components/sections/cards";
 import { CtaBand } from "@/components/sections/cta-band";
-import { LinkButton, Plate, SectionIndex, TextLink } from "@/components/ui/primitives";
+import { GradientField } from "@/components/ui/gradient-field";
+import { LinkButton, MicroLabel, SectionIndex, TextLink } from "@/components/ui/primitives";
 import { caseStudies } from "@/lib/content/case-studies";
-import { images } from "@/lib/content/images";
 import { industries } from "@/lib/content/industries";
 import { sortedInsights } from "@/lib/content/insights";
 import { services } from "@/lib/content/services";
@@ -28,72 +29,50 @@ export default function HomePage() {
   const latest = sortedInsights().slice(0, 3);
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-rule" aria-label="Introduction">
-        <DrawLines />
-        <div className="container-x relative pb-16 pt-10 md:pb-24 md:pt-14">
-          <div className="mono-label flex flex-wrap items-center justify-between gap-3 border-b border-rule pb-4 text-slate">
-            <span>
-              <span className="text-signal">Index 00</span> — Independent technology &amp; business consulting
-            </span>
-            <span className="hidden sm:inline">Lisbon · Toronto · Singapore — fictional studios</span>
-          </div>
-
-          <div className="mt-12 grid gap-10 md:mt-16 lg:grid-cols-12 lg:items-end">
-            <RevealText as="h1" className="max-w-[14ch] text-display-xl lg:col-span-8" delay={0.15}>
-              {site.tagline}
-            </RevealText>
-            <dl
-              aria-label="Open decision record"
-              className="hidden border border-ink bg-paper text-[0.9rem] lg:col-span-4 lg:block"
-            >
-              <div className="flex justify-between bg-ink px-4 py-2.5">
-                <dt className="mono-label text-phosphor">DR-00</dt>
-                <dd className="mono-label text-mist">Status: open</dd>
-              </div>
-              <div className="border-b border-rule px-4 py-3">
-                <dt className="mono-label text-slate">Context</dt>
-                <dd className="mt-1 text-graphite">The technology decision your organisation is weighing now.</dd>
-              </div>
-              <div className="border-b border-rule px-4 py-3">
-                <dt className="mono-label text-slate">Options</dt>
-                <dd className="mt-1 text-graphite">At least two credible ones, honestly described.</dd>
-              </div>
-              <div className="px-4 py-3">
-                <dt className="mono-label text-signal">Decision</dt>
-                <dd className="mt-1 text-ink">Recorded, reasoned, and reviewable.</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="mt-12 grid gap-12 md:mt-16 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-5">
-              <p className="max-w-md text-[1.15rem] text-graphite md:text-[1.25rem]">
+      {/* Hero: dark aurora field under the floating pill header */}
+      <section
+        className="on-dark relative -mt-[var(--header-h)] overflow-hidden rounded-b-[var(--radius-panel)] bg-ink text-paper"
+        aria-label="Introduction"
+      >
+        <GradientField tone="aurora" focus={[0.84, 0.7]} columns={28} seed={5} />
+        <div className="container-x relative flex flex-col pb-8 pt-[calc(var(--header-h)+2.5rem)] md:pt-[calc(var(--header-h)+4rem)] lg:min-h-[max(42rem,100svh)]">
+          <div className="grid flex-1 items-center gap-10 lg:grid-cols-12">
+            <div className="relative z-10 lg:col-span-7">
+              <MicroLabel dark className="text-ice">
+                We are Halvaren · independent technology &amp; business consulting
+              </MicroLabel>
+              <RevealText as="h1" className="mt-6 max-w-[11ch] text-hero uppercase" delay={0.15}>
+                {site.tagline}
+              </RevealText>
+              <p className="mt-8 max-w-md text-[1.1rem] text-paper md:text-[1.2rem]">
                 We help leadership teams in regulated and asset-heavy organisations decide what to build, buy, change
                 and stop — and we write those decisions down.
               </p>
-              <div className="mt-8 flex flex-col gap-3 xs:flex-row">
-                <LinkButton href="/consultation">Request a consultation</LinkButton>
-                <LinkButton href="/services" variant="secondary">
+              <div className="mt-9 flex flex-col gap-3 xs:flex-row">
+                <LinkButton href="/consultation" variant="on-dark">
+                  Request a consultation
+                </LinkButton>
+                <LinkButton href="/services" variant="ghost-dark">
                   Explore services
                 </LinkButton>
               </div>
             </div>
-            <div className="lg:col-span-7">
-              <Plate
-                image={images.hero}
-                plate="00"
-                priority
-                aspect="aspect-[16/10]"
-                sizes="(min-width: 1024px) 56vw, 92vw"
-              />
+            <div className="relative lg:col-span-5">
+              <HeroGlyph className="mx-auto block w-full max-w-[22rem] md:max-w-[28rem] lg:max-w-none" />
             </div>
+          </div>
+          <div className="mono-label mt-12 flex flex-wrap items-end justify-between gap-4 text-ice">
+            <a href="#position" className="inline-flex items-center gap-2 rounded-full hover:text-paper">
+              Scroll for more
+              <ArrowDown aria-hidden="true" className="size-3.5" />
+            </a>
+            <span>Lisbon · Toronto · Singapore — fictional studios</span>
           </div>
         </div>
       </section>
 
       {/* Position */}
-      <section className="section-y" aria-labelledby="position-title">
+      <section id="position" className="section-y scroll-mt-[var(--header-h)]" aria-labelledby="position-title">
         <div className="container-x grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-3">
             <SectionIndex n="01" label="Position" />
