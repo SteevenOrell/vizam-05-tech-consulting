@@ -108,7 +108,7 @@ export function CaseStudyBrowser({
           </Link>
         </div>
       ) : (
-        <ul className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-testid="scenario-grid">
+        <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-testid="scenario-grid">
           <AnimatePresence mode="popLayout" initial={false}>
             {results.map((c) => (
               <motion.li

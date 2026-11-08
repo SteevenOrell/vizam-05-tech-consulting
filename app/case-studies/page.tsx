@@ -30,7 +30,11 @@ export default function CaseStudiesPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Case studies", path: "/case-studies" }]}
-        index="§ Case studies"
+        index="Case studies"
+        tone="aurora"
+        ghost="CASES"
+        focus={[0.92, 0.9]}
+        seed={12}
         title="Illustrative scenarios."
         lead="How our method would apply to realistic situations in each industry we serve."
       >
@@ -41,11 +45,11 @@ export default function CaseStudiesPage() {
           </Notice>
         </div>
       </PageHeader>
-      <section className="section-y pt-12 md:pt-16" aria-label="Browse scenarios">
-        <div className="container-x">
+      <section className="bg-paper" aria-label="Browse scenarios">
+        <div className="container-x section-y">
           <Suspense
             fallback={
-              <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {caseStudies.map((c) => (
                   <li key={c.slug}>{cards[c.slug]}</li>
                 ))}
