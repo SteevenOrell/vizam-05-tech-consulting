@@ -7,7 +7,8 @@ import { RevealText } from "@/components/motion/reveal-text";
 import { IndustryCard, InsightCard, ScenarioCard, ServicesIndex } from "@/components/sections/cards";
 import { CtaBand } from "@/components/sections/cta-band";
 import { GradientField } from "@/components/ui/gradient-field";
-import { LinkButton, MicroLabel, SectionIndex, TextLink } from "@/components/ui/primitives";
+import { GhostNumeral } from "@/components/ui/ghost-numeral";
+import { Card, LinkButton, MicroLabel, SectionIndex, TextLink } from "@/components/ui/primitives";
 import { caseStudies } from "@/lib/content/case-studies";
 import { industries } from "@/lib/content/industries";
 import { sortedInsights } from "@/lib/content/insights";
@@ -71,9 +72,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Position */}
-      <section id="position" className="section-y scroll-mt-[var(--header-h)]" aria-labelledby="position-title">
-        <div className="container-x grid gap-10 lg:grid-cols-12">
+      {/* 01 Position: paper, ghost numeral, three principle cards */}
+      <section
+        id="position"
+        className="relative scroll-mt-[var(--header-h)] overflow-hidden bg-paper"
+        aria-labelledby="position-title"
+      >
+        <GhostNumeral value="01" tone="light" className="absolute -left-4 top-6 hidden h-[16rem] lg:block" />
+        <div className="container-x section-y relative grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-3">
             <SectionIndex n="01" label="Position" />
             <h2 id="position-title" className="sr-only">
@@ -82,33 +88,36 @@ export default function HomePage() {
           </div>
           <div className="lg:col-span-9">
             <HighlightText
-              className="text-[1.6rem] leading-[1.25] tracking-[-0.025em] md:text-[2.4rem] lg:text-[2.75rem]"
+              className="text-[1.6rem] font-semibold leading-[1.18] tracking-[-0.035em] md:text-[2.4rem] lg:text-[3rem]"
               text="Most technology problems are decision problems in disguise. Choices made by default, by vendor or by the loudest meeting harden into architecture that nobody can explain. We bring structure to those decisions: credible options, explicit trade-offs, and records that outlast the people who made them."
             />
-            <div className="mt-10 grid gap-6 border-t border-rule pt-6 sm:grid-cols-3">
+            <ul className="mt-12 grid gap-4 sm:grid-cols-3">
               {["Independent: no resale, no referral fees", "Senior: small teams, partner-led", "Temporary: built to hand over"].map(
-                (t) => {
+                (t, i) => {
                   const [k, v] = t.split(": ");
                   return (
-                    <p key={k} className="text-[0.95rem] text-graphite">
-                      <span className="mono-label block text-ink">{k}</span>
-                      {v}
-                    </p>
+                    <li key={k}>
+                      <Card className="p-5 md:p-5">
+                        <span className="font-mono text-xs text-signal">0{i + 1}</span>
+                        <span className="mono-label mt-3 block text-ink">{k}</span>
+                        <p className="mt-1 text-[0.95rem] text-graphite">{v}</p>
+                      </Card>
+                    </li>
                   );
                 },
               )}
-            </div>
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* Services */}
-      <section className="section-y border-t border-rule pt-16 md:pt-20" aria-labelledby="services-title">
-        <div className="container-x">
+      {/* 02 Services: paper-2 band, bento with a wide lead card */}
+      <section className="bg-paper-2" aria-labelledby="services-title">
+        <div className="container-x section-y">
           <div className="mb-10 grid gap-6 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
               <SectionIndex n="02" label="Services" />
-              <h2 id="services-title" className="mt-5 text-h2">
+              <h2 id="services-title" className="mt-5 text-display">
                 Six practices, one way of working.
               </h2>
             </div>
@@ -117,21 +126,22 @@ export default function HomePage() {
               one set of decision records.
             </p>
           </div>
-          <ServicesIndex items={services} />
+          <ServicesIndex items={services} feature />
           <div className="mt-8">
             <TextLink href="/services">All services and engagement shapes</TextLink>
           </div>
         </div>
       </section>
 
-      {/* Method */}
-      <section className="on-dark relative bg-ink text-paper" aria-labelledby="method-title">
-        <div className="grid-hairlines-dark pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+      {/* 03 Method: dark band with a quiet field and a ghost numeral */}
+      <section className="on-dark relative overflow-hidden bg-ink text-paper" aria-labelledby="method-title">
+        <GradientField tone="ink" focus={[0.04, 0.95]} columns={22} aspect={1.1} seed={21} />
+        <GhostNumeral value="03" tone="dark" variant="outline" className="absolute -right-2 top-8 hidden h-[15rem] lg:block" />
         <div className="container-x section-y relative grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-32">
               <SectionIndex n="03" label="Method" dark />
-              <h2 id="method-title" className="mt-5 text-h2">
+              <h2 id="method-title" className="mt-5 text-display">
                 Orient. Decide. Build. Hand over.
               </h2>
               <p className="mt-6 max-w-md text-mist">
@@ -146,13 +156,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Industries */}
-      <section className="section-y" aria-labelledby="industries-title">
-        <div className="container-x">
+      {/* 04 Industries: paper */}
+      <section className="bg-paper" aria-labelledby="industries-title">
+        <div className="container-x section-y">
           <div className="mb-10 grid gap-6 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
               <SectionIndex n="04" label="Industries" />
-              <h2 id="industries-title" className="mt-5 text-h2">
+              <h2 id="industries-title" className="mt-5 text-display">
                 Where the stakes are operational.
               </h2>
             </div>
@@ -161,7 +171,7 @@ export default function HomePage() {
               movement and government.
             </p>
           </div>
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-testid="industries-grid">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="industries-grid">
             {industries.map((i) => (
               <li key={i.slug}>
                 <IndustryCard industry={i} />
@@ -171,13 +181,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Scenarios */}
-      <section className="section-y border-t border-rule bg-paper-2" aria-labelledby="scenarios-title">
-        <div className="container-x">
+      {/* 05 Scenarios: pale ice field band */}
+      <section className="relative overflow-hidden bg-paper-2" aria-labelledby="scenarios-title">
+        <GradientField tone="ice" focus={[0.96, 0.04]} columns={24} aspect={1.6} seed={9} />
+        <div className="container-x section-y relative">
           <div className="mb-10 grid gap-6 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
               <SectionIndex n="05" label="Illustrative scenarios" />
-              <h2 id="scenarios-title" className="mt-5 text-h2">
+              <h2 id="scenarios-title" className="mt-5 text-display">
                 How we would approach it.
               </h2>
             </div>
@@ -186,7 +197,7 @@ export default function HomePage() {
               realistic situations. They are not real engagements and report no results.
             </p>
           </div>
-          <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {caseStudies.slice(0, 3).map((c) => (
               <li key={c.slug}>
                 <ScenarioCard study={c} />
@@ -199,40 +210,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Commitments */}
-      <section className="section-y" aria-labelledby="commitments-title">
-        <div className="container-x grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <SectionIndex n="06" label="Commitments" />
-            <h2 id="commitments-title" className="mt-5 text-h2">
+      {/* 06 Commitments: dark aurora band, glass cards with ghost numerals */}
+      <section className="on-dark relative overflow-hidden bg-ink text-paper" aria-labelledby="commitments-title">
+        <GradientField tone="aurora" focus={[0.5, 1.05]} columns={30} aspect={2} seed={33} />
+        <div className="container-x section-y relative">
+          <div className="mb-10 max-w-3xl">
+            <SectionIndex n="06" label="Commitments" dark />
+            <h2 id="commitments-title" className="mt-5 text-display">
               What you can hold us to.
             </h2>
           </div>
-          <ol className="grid border-t border-ink sm:grid-cols-2 lg:col-span-8">
+          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {commitments.map((c, i) => (
-              <li key={c.title} className="border-b border-rule py-7 sm:odd:pr-8 sm:even:border-l sm:even:pl-8">
-                <span className="font-mono text-sm text-signal">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-3 text-[1.3rem] leading-tight">{c.title}</h3>
-                <p className="mt-2 text-graphite">{c.text}</p>
+              <li key={c.title}>
+                <Card tone="glass" className="min-h-[15rem]">
+                  <GhostNumeral
+                    value={String(i + 1).padStart(2, "0")}
+                    tone="dark"
+                    variant="outline"
+                    className="absolute -right-1 -top-2 h-[5rem]"
+                  />
+                  <span className="mono-label relative text-ice">( {String(i + 1).padStart(2, "0")} )</span>
+                  <h3 className="relative mt-auto pt-10 text-[1.35rem] leading-tight">{c.title}</h3>
+                  <p className="relative mt-2 text-[0.97rem] text-paper">{c.text}</p>
+                </Card>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      {/* Insights */}
-      <section className="section-y border-t border-rule" aria-labelledby="insights-title">
-        <div className="container-x">
+      {/* 07 Insights: paper */}
+      <section className="bg-paper" aria-labelledby="insights-title">
+        <div className="container-x section-y">
           <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
             <div>
               <SectionIndex n="07" label="Insights" />
-              <h2 id="insights-title" className="mt-5 text-h2">
+              <h2 id="insights-title" className="mt-5 text-display">
                 Notes from the practice.
               </h2>
             </div>
             <TextLink href="/insights">All insights</TextLink>
           </div>
-          <ul className="grid gap-8 md:grid-cols-3">
+          <ul className="grid gap-4 md:grid-cols-3">
             {latest.map((a) => (
               <li key={a.slug}>
                 <InsightCard insight={a} />

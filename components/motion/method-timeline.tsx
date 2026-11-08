@@ -61,7 +61,7 @@ export function MethodTimeline() {
         >
           <span
             aria-hidden="true"
-            className="absolute left-0 top-1.5 size-[1.25rem] border border-rule-dark bg-ink transition-colors duration-500 group-data-[active=true]:border-phosphor group-data-[active=true]:bg-phosphor"
+            className="absolute left-0 top-1.5 size-[1.25rem] rounded-full border border-rule-dark bg-ink transition-colors duration-500 group-data-[active=true]:border-phosphor group-data-[active=true]:bg-phosphor"
           />
           <p className="mono-label pt-1 text-mist transition-colors duration-500 group-data-[active=true]:text-phosphor">
             Step {m.step}
