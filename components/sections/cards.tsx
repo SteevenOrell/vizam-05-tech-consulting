@@ -1,30 +1,56 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { GhostNumeral } from "@/components/ui/ghost-numeral";
 import { IllustrativeBadge, Tag } from "@/components/ui/primitives";
 import { getIndustry } from "@/lib/content/industries";
 import { getService } from "@/lib/content/services";
 import type { CaseStudy, Industry, Insight, Service } from "@/lib/content/types";
 import { formatDate } from "@/lib/format";
 
-/** Indexed table of services: the primary directory pattern (rows, not cards). */
-export function ServicesIndex({ items, headingLevel = 3 }: { items: Service[]; headingLevel?: 2 | 3 }) {
+/** With six cards on a three-column grid, wide cards at 0, 3 and 5 make three full rows (2+1, 1+2, 1+2). */
+const FEATURE_SPANS = new Set([0, 3, 5]);
+
+const hoverLift = "transition duration-300 ease-[var(--ease-instrument)] hover:-translate-y-0.5 hover:border-ink";
+
+/**
+ * Bento directory of services: rounded cards with a large aurora index numeral. Equal height per row; the first
+ * card of the grid is wider on desktop when `feature` is set (Home).
+ */
+export function ServicesIndex({
+  items,
+  headingLevel = 3,
+  feature = false,
+}: {
+  items: Service[];
+  headingLevel?: 2 | 3;
+  feature?: boolean;
+}) {
   const H = headingLevel === 2 ? "h2" : "h3";
   return (
-    <ul className="border-t border-ink" data-testid="services-index">
-      {items.map((s) => (
-        <li key={s.slug} className="border-b border-rule">
+    <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-testid="services-index">
+      {items.map((s, i) => (
+        <li key={s.slug} className={feature && FEATURE_SPANS.has(i) ? "lg:col-span-2" : ""}>
           <Link
             href={`/services/${s.slug}`}
-            className="group grid grid-cols-[2.5rem_1fr_auto] items-start gap-x-4 gap-y-2 py-7 transition-colors hover:bg-paper-2 md:grid-cols-[4rem_minmax(0,5fr)_minmax(0,6fr)_auto] md:items-center md:gap-x-8 md:px-3"
+            data-card=""
+            className={`group card relative flex h-full flex-col overflow-hidden p-6 md:p-7 ${hoverLift}`}
           >
-            <span className="font-mono text-sm text-signal">{s.index}</span>
-            <H className="text-[1.35rem] leading-tight tracking-[-0.025em] md:text-[1.6rem]">{s.title}</H>
-            <ArrowUpRight
-              aria-hidden="true"
-              className="size-5 text-slate transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink md:order-last"
+            <GhostNumeral
+              value={s.index}
+              tone="aurora"
+              className="absolute -right-1 -top-3 h-[6.5rem] opacity-70 transition-opacity duration-300 group-hover:opacity-100"
             />
-            <p className="col-span-2 col-start-2 text-graphite md:col-span-1 md:col-start-auto">{s.short}</p>
+            <span className="mono-label relative text-signal">( {s.index} )</span>
+            <H className="relative mt-10 text-[1.45rem] leading-tight tracking-[-0.03em] md:text-[1.7rem]">{s.title}</H>
+            <p className="relative mt-3 flex-1 text-graphite">{s.short}</p>
+            <span className="relative mt-6 inline-flex items-center gap-1.5 font-mono text-[0.78rem] font-medium uppercase tracking-[0.06em] text-signal">
+              Explore
+              <ArrowUpRight
+                aria-hidden="true"
+                className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </span>
           </Link>
         </li>
       ))}
@@ -38,9 +64,9 @@ export function IndustryCard({ industry, headingLevel = 3 }: { industry: Industr
     <Link
       href={`/industries/${industry.slug}`}
       data-card=""
-      className="group flex h-full flex-col border border-rule bg-paper transition-colors hover:border-ink"
+      className={`group card flex h-full flex-col overflow-hidden ${hoverLift}`}
     >
-      <div className="relative aspect-[3/2] overflow-hidden bg-paper-2">
+      <div className="relative m-2 aspect-[3/2] overflow-hidden rounded-[calc(var(--radius-card)-0.5rem)] bg-paper-2">
         <Image
           src={industry.image.src}
           alt=""
@@ -48,11 +74,12 @@ export function IndustryCard({ industry, headingLevel = 3 }: { industry: Industr
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
           className="object-cover grayscale-[35%] transition duration-700 ease-[var(--ease-instrument)] group-hover:scale-[1.03] group-hover:grayscale-0"
         />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent" />
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col px-5 pb-5 pt-3">
         <H className="text-[1.3rem] leading-tight">{industry.title}</H>
         <p className="mt-2 flex-1 text-[0.97rem] text-graphite">{industry.short}</p>
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-signal">
+        <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-[0.78rem] font-medium uppercase tracking-[0.06em] text-signal">
           Industry solutions
           <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
         </span>
@@ -68,9 +95,9 @@ export function ScenarioCard({ study, headingLevel = 3 }: { study: CaseStudy; he
     <Link
       href={`/case-studies/${study.slug}`}
       data-card=""
-      className="group flex h-full flex-col border border-rule bg-paper transition-colors hover:border-ink"
+      className={`group card flex h-full flex-col overflow-hidden ${hoverLift}`}
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-paper-2">
+      <div className="relative m-2 aspect-[16/10] overflow-hidden rounded-[calc(var(--radius-card)-0.5rem)] bg-paper-2">
         <Image
           src={study.image.src}
           alt=""
@@ -82,8 +109,8 @@ export function ScenarioCard({ study, headingLevel = 3 }: { study: CaseStudy; he
           <IllustrativeBadge />
         </span>
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="mono-label text-slate">{industry?.title}</p>
+      <div className="flex flex-1 flex-col px-5 pb-5 pt-3">
+        <p className="mono-label text-slate">( {industry?.title} )</p>
         <H className="mt-2 text-[1.25rem] leading-snug">{study.title}</H>
         <p className="mt-2 flex-1 text-[0.95rem] text-graphite">{study.summary}</p>
         <div className="mt-5 flex flex-wrap gap-1.5">
@@ -102,28 +129,30 @@ export function InsightCard({ insight, headingLevel = 3 }: { insight: Insight; h
     <Link
       href={`/insights/${insight.slug}`}
       data-card=""
-      className="group flex h-full flex-col border-t border-ink pt-5"
+      className={`group card flex h-full flex-col overflow-hidden ${hoverLift}`}
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-paper-2">
+      <div className="relative m-2 aspect-[16/10] overflow-hidden rounded-[calc(var(--radius-card)-0.5rem)] bg-paper-2">
         <Image
           src={insight.image.src}
           alt=""
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
-          className="object-cover grayscale transition duration-700 group-hover:grayscale-0"
+          className="object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
         />
       </div>
-      <div className="mono-label mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-slate">
-        <span className="text-signal">{insight.category}</span>
-        <span aria-hidden="true">·</span>
-        <time dateTime={insight.date}>{formatDate(insight.date)}</time>
-        <span aria-hidden="true">·</span>
-        <span>{insight.readingTime} min read</span>
+      <div className="flex flex-1 flex-col px-5 pb-5 pt-3">
+        <div className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1 text-slate">
+          <span className="text-signal">{insight.category}</span>
+          <span aria-hidden="true">·</span>
+          <time dateTime={insight.date}>{formatDate(insight.date)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{insight.readingTime} min read</span>
+        </div>
+        <H className="mt-3 text-[1.3rem] leading-snug">
+          <span className="link-underline">{insight.title}</span>
+        </H>
+        <p className="mt-2 flex-1 text-[0.96rem] text-graphite">{insight.excerpt}</p>
       </div>
-      <H className="mt-2 text-[1.3rem] leading-snug">
-        <span className="link-underline">{insight.title}</span>
-      </H>
-      <p className="mt-2 flex-1 text-[0.96rem] text-graphite">{insight.excerpt}</p>
     </Link>
   );
 }

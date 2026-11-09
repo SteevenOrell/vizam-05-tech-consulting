@@ -5,7 +5,7 @@ import { IndustryCard, ScenarioCard } from "@/components/sections/cards";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { DecisionRecord } from "@/components/ui/decision-record";
-import { Plate, SectionIndex } from "@/components/ui/primitives";
+import { Card, Plate, SectionIndex } from "@/components/ui/primitives";
 import { caseStudies } from "@/lib/content/case-studies";
 import { getIndustry } from "@/lib/content/industries";
 import { getService, services } from "@/lib/content/services";
@@ -41,29 +41,32 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
           { name: "Services", path: "/services" },
           { name: service.title, path: `/services/${service.slug}` },
         ]}
-        index={`§ Service ${service.index}`}
+        index={`Service ${service.index}`}
+        tone="ink"
+        ghost={service.index}
+        seed={Number(service.index) + 30}
         title={service.title}
         lead={service.summary}
         aside={
-          <dl className="grid gap-4 border-t border-ink pt-4 text-[0.95rem]">
+          <dl className="card-glass on-dark grid gap-4 p-5 text-[0.95rem]">
             <div>
-              <dt className="mono-label text-slate">Typical shape</dt>
+              <dt className="mono-label text-mist">Typical shape</dt>
               <dd className="mt-1">{service.engagement.shape}</dd>
             </div>
             <div>
-              <dt className="mono-label text-slate">Indicative duration</dt>
+              <dt className="mono-label text-mist">Indicative duration</dt>
               <dd className="mt-1">{service.engagement.duration}</dd>
             </div>
             <div>
-              <dt className="mono-label text-slate">Typical team</dt>
+              <dt className="mono-label text-mist">Typical team</dt>
               <dd className="mt-1">{service.engagement.team}</dd>
             </div>
           </dl>
         }
       />
 
-      <section className="section-y" aria-labelledby="overview-title">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
+      <section className="bg-paper" aria-labelledby="overview-title">
+        <div className="container-x section-y grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionIndex n="01" label="Overview" />
             <h2 id="overview-title" className="sr-only">
@@ -81,18 +84,18 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
         </div>
       </section>
 
-      <section className="section-y border-t border-rule bg-paper-2" aria-labelledby="questions-title">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
+      <section className="bg-paper-2" aria-labelledby="questions-title">
+        <div className="container-x section-y grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionIndex n="02" label="Questions we help answer" />
             <h2 id="questions-title" className="mt-5 text-h2">
               The questions on the table.
             </h2>
           </div>
-          <ol className="border-t border-ink lg:col-span-8">
+          <ol className="card divide-y divide-rule px-5 md:px-8 lg:col-span-8">
             {service.questions.map((q, i) => (
-              <li key={q} className="flex gap-5 border-b border-rule py-5 text-[1.2rem] leading-snug md:text-[1.35rem]">
-                <span className="mt-1 font-mono text-sm text-signal">Q{i + 1}</span>
+              <li key={q} className="flex gap-5 py-5 text-[1.2rem] leading-snug md:text-[1.35rem]">
+                <span className="mt-0.5 inline-flex h-7 shrink-0 items-center rounded-full bg-ink px-2.5 font-mono text-xs text-ice">Q{i + 1}</span>
                 <span>{q}</span>
               </li>
             ))}
@@ -100,27 +103,29 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
         </div>
       </section>
 
-      <section className="section-y" aria-labelledby="work-title">
-        <div className="container-x">
+      <section className="bg-paper" aria-labelledby="work-title">
+        <div className="container-x section-y">
           <SectionIndex n="03" label="What the work involves" />
           <h2 id="work-title" className="mt-5 max-w-3xl text-h2">
             Activities and deliverables.
           </h2>
           <div className="mt-12 grid gap-12 lg:grid-cols-12">
-            <ul className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:col-span-8">
+            <ul className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
               {service.activities.map((a) => (
-                <li key={a.title} className="h-full bg-paper p-6" data-card="">
-                  <h3 className="text-[1.2rem] leading-tight">{a.title}</h3>
-                  <p className="mt-2 text-graphite">{a.text}</p>
+                <li key={a.title}>
+                  <Card data-card="">
+                    <h3 className="text-[1.2rem] leading-tight">{a.title}</h3>
+                    <p className="mt-2 text-graphite">{a.text}</p>
+                  </Card>
                 </li>
               ))}
             </ul>
-            <div className="lg:col-span-4">
-              <h3 className="mono-label text-slate">Typical deliverables</h3>
-              <ul className="mt-4 border-t border-ink">
+            <div className="card-ink on-dark p-6 md:p-7 lg:col-span-4">
+              <h3 className="mono-label text-mist">Typical deliverables</h3>
+              <ul className="mt-4 divide-y divide-rule-dark">
                 {service.deliverables.map((d) => (
-                  <li key={d} className="flex gap-3 border-b border-rule py-3">
-                    <span aria-hidden="true" className="mt-[0.75em] h-px w-3 shrink-0 bg-signal" />
+                  <li key={d} className="flex gap-3 py-3">
+                    <span aria-hidden="true" className="mt-[0.75em] h-px w-3 shrink-0 bg-phosphor" />
                     {d}
                   </li>
                 ))}
@@ -130,8 +135,8 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
         </div>
       </section>
 
-      <section className="section-y border-t border-rule bg-paper-2" aria-labelledby="dr-title">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
+      <section className="bg-paper-2" aria-labelledby="dr-title">
+        <div className="container-x section-y grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionIndex n="04" label="How we reason" />
             <h2 id="dr-title" className="mt-5 text-h2">
@@ -147,13 +152,13 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
         </div>
       </section>
 
-      <section className="section-y" aria-labelledby="related-title">
-        <div className="container-x">
+      <section className="bg-paper" aria-labelledby="related-title">
+        <div className="container-x section-y">
           <SectionIndex n="05" label="Related" />
           <h2 id="related-title" className="mt-5 text-h2">
             Where this practice works most.
           </h2>
-          <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((i) => (
               <li key={i.slug}>
                 <IndustryCard industry={i} />
@@ -163,7 +168,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
           {scenarios.length > 0 && (
             <>
               <h3 className="mono-label mt-16 text-slate">Illustrative scenarios using this practice</h3>
-              <ul className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {scenarios.map((c) => (
                   <li key={c.slug}>
                     <ScenarioCard study={c} headingLevel={3} />
@@ -172,7 +177,7 @@ export default async function ServiceDetailPage({ params }: PageProps<"/services
               </ul>
             </>
           )}
-          <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-ink pt-6">
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-rule pt-6">
             <Link href="/services" className="link-underline text-graphite hover:text-ink">
               ← All services
             </Link>

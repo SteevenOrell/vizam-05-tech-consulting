@@ -21,15 +21,19 @@ export default function InsightsPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Insights", path: "/insights" }]}
-        index="§ Insights"
+        index="Insights"
+        tone="ink"
+        ghost="NOTES"
+        focus={[0.95, 0.85]}
+        seed={16}
         title="Notes from the practice."
         lead="Short, practical writing on the decisions our clients face. Original articles written for this concept site."
       />
-      <section className="section-y pt-12 md:pt-16" aria-label="Articles">
-        <div className="container-x">
+      <section className="bg-paper" aria-label="Articles">
+        <div className="container-x section-y">
           <Suspense
             fallback={
-              <ul className="grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+              <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {items.slice(0, INSIGHTS_PER_PAGE).map((i) => (
                   <li key={i.slug}>{cards[i.slug]}</li>
                 ))}

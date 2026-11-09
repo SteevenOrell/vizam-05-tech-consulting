@@ -39,16 +39,19 @@ export default function PrivacyPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Privacy & demo notice", path: "/privacy" }]}
-        index="§ Notice"
+        index="Notice"
+        tone="paper"
+        focus={[0.95, 0.1]}
+        seed={41}
         title="Privacy and demo notice."
         lead="Plain answers about what this concept site does with your information: nothing."
       />
-      <section className="section-y pt-14" aria-label="Notice">
-        <div className="container-x max-w-3xl">
+      <section className="bg-paper" aria-label="Notice">
+        <div className="container-x section-y max-w-3xl">
           {sections.map((s, i) => (
-            <div key={s.title} className="border-t border-ink py-8">
-              <h2 className="flex gap-4 text-[1.5rem] leading-tight">
-                <span className="mt-1 font-mono text-sm text-signal">{String(i + 1).padStart(2, "0")}</span>
+            <div key={s.title} className="card mb-4 p-6 md:p-8">
+              <h2 className="flex items-start gap-4 text-[1.5rem] leading-tight">
+                <span className="mt-0.5 inline-flex h-7 min-w-9 shrink-0 items-center justify-center rounded-full bg-ink px-2 font-mono text-xs text-ice">{String(i + 1).padStart(2, "0")}</span>
                 {s.title}
               </h2>
               <div className="mt-4 space-y-4 text-graphite">
@@ -58,7 +61,7 @@ export default function PrivacyPage() {
               </div>
             </div>
           ))}
-          <p className="mono-label border-t border-rule pt-6 text-slate">Last reviewed: 5 November 2026</p>
+          <p className="mono-label pt-4 text-slate">Last reviewed: 5 November 2026</p>
         </div>
       </section>
     </>

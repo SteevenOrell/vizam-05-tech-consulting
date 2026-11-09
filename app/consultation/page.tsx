@@ -20,13 +20,17 @@ export default function ConsultationPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Request a consultation", path: "/consultation" }]}
-        index="§ Consultation"
+        index="Consultation"
+        tone="aurora"
+        ghost="START"
+        focus={[0.94, 0.9]}
+        seed={6}
         title="Bring us the decision you are weighing."
         lead="Four short sections. Your answers shape the first working session, so it starts with your problem rather than our credentials."
       />
-      <section className="section-y pt-14 md:pt-20" aria-labelledby="form-title">
-        <div className="container-x grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+      <section className="bg-paper" aria-labelledby="form-title">
+        <div className="container-x section-y grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="card p-5 md:p-9 lg:col-span-7">
             <h2 id="form-title" className="sr-only">
               Consultation request form
             </h2>
@@ -38,14 +42,14 @@ export default function ConsultationPage() {
           <aside className="lg:col-span-4 lg:col-start-9" aria-label="What happens next">
             <div className="lg:sticky lg:top-28">
               <SectionIndex n="—" label="What happens next" />
-              <ol className="mt-6 border-t border-ink">
+              <ol className="card mt-6 divide-y divide-rule px-5">
                 {[
                   "A partner reads your request and replies within two working days (in a live version).",
                   "A 60-minute working session to frame the decision and the options.",
                   "A short written note: what we heard, what we would want to know, and whether we are the right fit.",
                 ].map((t, i) => (
-                  <li key={t} className="flex gap-4 border-b border-rule py-4">
-                    <span className="font-mono text-sm text-signal">{String(i + 1).padStart(2, "0")}</span>
+                  <li key={t} className="flex gap-4 py-4">
+                    <span className="inline-flex h-7 min-w-9 shrink-0 items-center justify-center rounded-full bg-ink px-2 font-mono text-xs text-ice">{String(i + 1).padStart(2, "0")}</span>
                     <span className="text-graphite">{t}</span>
                   </li>
                 ))}

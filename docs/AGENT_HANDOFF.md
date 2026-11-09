@@ -1,6 +1,6 @@
 # Agent handoff — vizam-05-tech-consulting (Halvaren, VIZAM concept project 05)
 
-_Last updated: 2026-11-06 by the Phase D (security review + QA sign-off) agent_
+_Last updated: 2026-11-08 by the theme-refresh slice 2 agent (all pages and shared components restyled)_
 
 ## Objective
 Premium corporate site for a fictional international technology and business consulting firm ("Halvaren
@@ -39,7 +39,56 @@ Advisory"), built as a VIZAM portfolio concept. Fictional company: say so in the
   240/390/768/1440 + menus + `lock-240-menu`), `scripts/secret-scan.mjs`.
 - The agent was about to run the full final gate before writing `docs/report.md`; no results were recorded.
 
-## Pending (priority order) — slices
+## Theme refresh (theme 2 "Aurora Ledger") — current work
+- Worktree: `.claude/worktrees/theme-refresh`, branch `vizam/theme-refresh` (cut from `vizam/initial-build` at
+  `7a87d91`). No push, PR or deploy yet. Steeven asked for a new UX/UI theme from two mood references (bento slides
+  with blurred/pixel-mosaic gradients; dark hero with pill nav and a brushed-metal glyph), colour changed from orange.
+- Decisions: midnight `#070B1C` base, aurora cobalt `#2F4FF0` → teal `#1FB5D6` → ice `#D3F1F8`, warm paper
+  `#F4F1EA`; Geist + Geist Mono only (Newsreader dropped); pill nav, rounded cards, bracket mono labels, ghost
+  numerals, split-H monogram. Full spec and primitive table: `docs/design-direction.md` (§10 = how pages use them).
+  Theme-1 token names are kept and remapped so unrestyled pages still look coherent.
+
+### Slice 1 done (2026-11-08)
+- Tokens, radii, type scale, `.card*`, `.bg-aurora`, `.aurora-rule` in `app/globals.css`.
+- New: `components/ui/gradient-field.tsx`, `ghost-numeral.tsx`, `halvaren-mark.ts`, `components/motion/hero-glyph.tsx`;
+  `Card`, `Section`, `MicroLabel` added to `components/ui/primitives.tsx`; buttons/tags/badges/notice/plate restyled.
+- Shell: floating pill header + full-screen mobile menu (focus trap incl. Close, Escape, fixed-lock kept), skip link,
+  footer with ink field and ghost wordmark, new logo/favicon.
+- Home hero rebuilt (aurora field, uppercase hero heading, HeroGlyph). `images.hero` is no longer used on Home
+  (kept in `lib/content/images.ts` for slice 2 to reuse or drop).
+- Unit tests `tests/unit/theme.test.tsx` (5) added. Open Graph image (`app/opengraph-image.tsx`) still theme 1.
+
+### Slice 1 checks (2026-11-08, worktree theme-refresh, all seen)
+| Check | Command | Result |
+|---|---|---|
+| Lint | `npm run lint` | pass, no warnings |
+| Typecheck | `npm run typecheck` | pass |
+| Unit | `npm test` | pass, 5 files, 45 tests |
+| Build | `npm run build` | pass, 42 static pages |
+| E2E (affected) | `npx playwright test` navigation, interactions, layout, a11y (port 3105) | pass, 76/76 (3.8 min) |
+| Not run | `tests/e2e/forms.spec.ts`, `npm audit`, secret scan, quality gate, content QA | slice 2 / final gate |
+Home screenshots at 240/390/768/1440 (normal and reduced motion) and menus checked by eye; no overflow from 300 px,
+`#root` 500 px at 240 px.
+
+### Slice 2 done (2026-11-08): all pages and shared components restyled
+Page header (tones aurora/ink/paper, ghost word), CTA panel, bento cards, pill forms, decision record, pagination, accordion,
+filters; Home 01-08; about, services (+detail), industries (+detail), case studies (+detail), insights (+articles), careers,
+contact, consultation, privacy, 404/error/loading; Open Graph image. `images.hero` dropped (file, entry and credit removed; 14
+Unsplash WebP remain). `DrawLines` and `.grid-hairlines` removed. `next.config.ts` caps `images.deviceSizes` at 1400. Mono labels
+now 12 px. Screenshots in `docs/screenshots/` refreshed (26 WebP incl. `home-hero-*`). Checks table: `docs/report.md` section 3a.
+Gate: lint, typecheck, 45 unit, build, 79/79 e2e, audit 0, secret scan, quality gate 0 FAIL, content QA 0 FAIL. No push/PR/deploy.
+
+### Slice 2 plan (kept for reference)
+Use `docs/design-direction.md` §10. Replace `grid-hairlines`, `DrawLines`, `rounded-[2px]`, `§` indices:
+- Shared: `components/sections/page-header.tsx` (dark/aurora header with GradientField), `cta-band.tsx` (aurora),
+  `cards.tsx` (Card surfaces, keep `data-card` + equal height), `components/forms/*` (rounded fields, pill submit),
+  `components/ui/decision-record.tsx`, `pagination.tsx`, `roles-accordion.tsx`, filters in the two browsers.
+- Home below the hero (sections 01–08: method band, industries, scenarios, commitments with GhostNumeral, insights).
+- Pages: about, services, services/[slug], industries, industries/[slug], case-studies, case-studies/[slug],
+  insights, insights/[slug], careers, contact, consultation, privacy, not-found, error, opengraph-image.
+- Then refresh `docs/screenshots/*.webp`, run the full Playwright suite, `vizam-quality-gate` and `vizam-content-qa`.
+
+## Pending (initial build, done) — slices
 1. **Slice: final gate.** Commit the uncommitted work above (small logical commits). Run `npm ci`, `npm run lint`,
    `npm run typecheck`, `npm test`, Playwright e2e + axe, `npm run build`, `npm audit`, `node scripts/secret-scan.mjs`
    (tree + full history). Fix failures. Record real results in the table below.
@@ -85,7 +134,8 @@ Phase D re-run after fixes: lint pass; typecheck pass; `npm test` 40/40; build p
 79/79 (12.0 min, port 3105); `npm audit` 0 vulnerabilities; secret scan pass (127 files, 18 commits, 17 rules).
 
 ## Next step
-Coordinator: re-run checks, fast-forward vizam/initial-build, push, PR.
+Steeven reviews `vizam/theme-refresh` (taste). Then, on approval: push the branch, open the PR, optional Vercel preview. Not done:
+Lighthouse, manual assistive-tech test, portfolio video refresh.
 
 ## Waiting for approval
 - Vercel link/preview and any production deploy (Steeven).

@@ -6,7 +6,6 @@ Downloaded 2026-11-05 via the site-media scripts (Unsplash API; download events 
 
 | File (`public/images/`) | Photographer | Source |
 |---|---|---|
-| hero-reflection.webp | [Haberdoedas](https://unsplash.com/@haberdoedas) | [Unsplash gPwsSkcQti0](https://unsplash.com/photos/concrete-structure-reflected-in-the-dark-water-gPwsSkcQti0) |
 | stairs-shadow.webp | [nedimshoots](https://unsplash.com/@nedimshoots) | [Unsplash MU9rJANL54c](https://unsplash.com/photos/concrete-stairs-with-sharp-shadows-MU9rJANL54c) |
 | facade-rhythm.webp | [Steve A Johnson](https://unsplash.com/@steve_j) | [Unsplash zhDpT-h_yPg](https://unsplash.com/photos/beige-concrete-building-zhDpT-h_yPg) |
 | light-beams.webp | [Aram Ramazyan](https://unsplash.com/@aramazyan) | [Unsplash xiDKBSSRzt8](https://unsplash.com/photos/shadows-and-sunlight-cast-on-concrete-structure-xiDKBSSRzt8) |

@@ -1,11 +1,11 @@
 import type { DecisionRecord as DR } from "@/lib/content/types";
 
-/** Signature component: an Architecture Decision Record rendered as a technical document. */
+/** Signature component: a decision record as a rounded card with a midnight header strip. */
 export function DecisionRecord({ record, headingLevel = 3 }: { record: DR; headingLevel?: 2 | 3 }) {
   const H = headingLevel === 2 ? "h2" : "h3";
   return (
-    <article className="border border-ink bg-paper" aria-labelledby={`dr-${record.id}`}>
-      <header className="flex flex-wrap items-center justify-between gap-2 border-b border-ink bg-ink px-5 py-3 text-paper">
+    <article className="card overflow-hidden" aria-labelledby={`dr-${record.id}`}>
+      <header className="on-dark flex flex-wrap items-center justify-between gap-2 bg-ink px-5 py-3 text-paper">
         <p className="mono-label text-phosphor">Decision record · {record.id}</p>
         <p className="mono-label text-mist">Status: recommended</p>
       </header>
@@ -44,7 +44,7 @@ export function DecisionRecord({ record, headingLevel = 3 }: { record: DR; headi
               </ul>
             </dd>
           </div>
-          <div className="border-l-2 border-signal pl-4 md:col-span-2">
+          <div className="rounded-[var(--radius-field)] bg-ice/55 p-4 md:col-span-2">
             <dt className="mono-label text-signal">Decision</dt>
             <dd className="mt-1.5 text-[1.08rem] text-ink">{record.decision}</dd>
           </div>

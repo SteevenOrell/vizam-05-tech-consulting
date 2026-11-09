@@ -31,13 +31,13 @@ export function InsightsBrowser({
   const result = paginate(filterInsights(items, category), searchParams.get("page"), perPage);
 
   const chip = (active: boolean) =>
-    `inline-flex min-h-10 items-center border px-3 py-1.5 text-sm transition-colors ${
-      active ? "border-ink bg-ink text-paper" : "border-rule bg-paper text-graphite hover:border-ink hover:text-ink"
+    `inline-flex min-h-10 items-center rounded-full border px-4 py-1.5 font-mono text-[0.76rem] uppercase tracking-[0.05em] transition-colors ${
+      active ? "border-ink bg-ink text-ice" : "border-graphite/30 bg-paper text-graphite hover:border-ink hover:text-ink"
     }`;
 
   return (
     <div>
-      <div role="group" aria-labelledby="category-label" className="flex flex-wrap items-center gap-x-5 gap-y-3 border-y border-ink py-6">
+      <div role="group" aria-labelledby="category-label" className="card flex flex-wrap items-center gap-x-5 gap-y-3 p-5 md:px-7">
         <p id="category-label" className="mono-label text-slate">
           Category
         </p>
@@ -59,7 +59,7 @@ export function InsightsBrowser({
       <p className="mono-label mt-6 text-slate" role="status" aria-live="polite" data-testid="results-count">
         {result.total} {result.total === 1 ? "article" : "articles"} · page {result.page} of {result.totalPages}
       </p>
-      <ul className="mt-8 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3" data-testid="insights-grid">
+      <ul className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-testid="insights-grid">
         {result.items.map((i) => (
           <li key={i.slug}>{cards[i.slug]}</li>
         ))}

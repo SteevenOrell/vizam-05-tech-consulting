@@ -4,10 +4,12 @@
 > concept. It has no clients, staff or offices. Case studies are **illustrative scenarios**, job listings are
 > **demos**, and the contact and consultation forms are **demo submissions** that are validated and then discarded.
 
-A premium corporate website for a fictional international technology and business consultancy. The identity is a
-"measured page": a porcelain-and-ink palette with one phosphor accent, a visible coordinate grid, mono section
-indices and **decision records** as the signature component — credibility through structure, not through logos,
-testimonials or statistics (none are shown, because none exist).
+A premium corporate website for a fictional international technology and business consultancy. The identity is
+**"Aurora Ledger"** (theme 2): a midnight base lit by cobalt-to-teal-to-ice gradient and pixel-mosaic fields, warm paper
+sections, very large tight headings, mono bracket labels, ghost numerals, rounded bento cards, a floating pill
+navigation and a split-H monogram — with **decision records** as the signature component. Credibility comes through
+structure, not through logos, testimonials or statistics (none are shown, because none exist). The theme was driven by
+two mood references (characteristics only: no content, branding or colour was reused). Spec: `docs/design-direction.md`.
 
 ## Stack
 
@@ -49,10 +51,10 @@ the absolute origin used in canonical URLs, Open Graph and the sitemap; it defau
 ```
 app/                 routes, metadata, sitemap/robots/OG image, error/loading/404
 components/layout    header + accessible mobile menu, footer, skip link
-components/motion    GSAP: word reveal, grid draw-in, scroll-linked statement, method timeline
+components/motion    GSAP: word reveal, hero glyph, scroll-linked statement, method timeline
 components/sections  cards, filters/pagination browsers, page header, CTA band, roles accordion
 components/forms     contact + consultation forms (RHF + Zod), field primitives, demo receipt
-components/ui        primitives (plates, tags, badges), decision record, pagination, logo
+components/ui        primitives (Card, Section, labels, buttons), GradientField, GhostNumeral, decision record, pagination, logo
 lib/content          typed, CMS-ready content (services, industries, case studies, insights, careers, images)
 lib/forms            Zod schemas, server actions, honeypot/timing/rate-limit processing
 docs/                design direction, plan, report, handoff, media credits, screenshots
@@ -66,7 +68,8 @@ tests/unit, tests/e2e
 - `docs/report.md` — implementation report: checks with results, security, accessibility, performance, limitations
 - `docs/AGENT_HANDOFF.md` — current status and next steps (`docs/handoff.md` points to it)
 - `docs/media-credits.md` — Unsplash photographer credits
-- `docs/screenshots/` — WebP screenshots at 240 (500 px lock), 390, 768 and 1440 px
+- `docs/screenshots/` — Aurora Ledger WebP screenshots (Home, a service page, case studies, insights, consultation, menus,
+  Home hero) at 240 (500 px lock), 390, 768 and 1440 px
 
 ## Deployment
 
@@ -75,6 +78,6 @@ project to be linked by the owner, and production deploys need approval. See `do
 
 ## Credits and licence notes
 
-Photography from [Unsplash](https://unsplash.com) under the Unsplash License — photographers credited in
+Photography (14 images) from [Unsplash](https://unsplash.com) under the Unsplash License — photographers credited in
 `docs/media-credits.md`. Only compressed WebP derivatives are committed. The wordmark, diagrams and all copy are
 original work for this concept. Designed and built by VIZAM.
