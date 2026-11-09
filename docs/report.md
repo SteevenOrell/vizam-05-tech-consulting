@@ -160,3 +160,22 @@ Accepted (documented, not changed):
 ## 8. VIZAM portfolio case-study blurb (105 words)
 
 Halvaren is a fictional international technology and business consultancy, designed and built by VIZAM as a portfolio concept. The brief was credibility without clichés: no logo walls, invented testimonials or statistics. Instead, the identity is a measured page, with a porcelain-and-ink palette, one phosphor accent, a visible coordinate grid and decision records as the signature component. The site spans 42 statically generated pages across services, industries, illustrative case studies and insights, built with Next.js, TypeScript, Tailwind, GSAP and Motion. Forms validate on the server with a honeypot and rate limiting, and nothing is stored. Automated tests cover accessibility and layout from 240 to 1440 pixels.
+
+## 9. Hero globe approval preview (2026-11-09)
+
+Only the dimensional hero H was replaced with an original SVG globe, retaining the Aurora Ledger hero layout. Screenshots: `docs/screenshots/home-globe-desktop.webp` and `home-globe-mobile.webp`. No new dependencies or raster media.
+
+Lint, typecheck, unit tests, tracked-file and tree/history secret scans passed. The standard Turbopack build fails when its CSS worker exits before connecting. A temporary Tailwind-precompiled Webpack build generated all 42 pages for screenshot review; original CSS/config were restored. This is not a passing normal release build. Full local evidence: `docs/qa/globe-build-notes.md`.
+
+Homepage content QA: 0 FAIL, 12 WARN. Both desktop/phone contact sheets inspected. Nine existing photography warnings (financial, energy, health, manufacturing, logistics, public, glass-soffit, data-hall, concrete-curve) report ~1.1x density. Three existing repeated images (financial, energy, health) remain unchanged because this task explicitly replaces only the hero H. No globe clipping or text overlap observed. No push or merge before screenshot approval and build verification.
+
+Targeted globe browser checks passed in normal and reduced-motion modes at 240/300/390/768/1440 px: globe present, old H halves absent, no page errors, no horizontal overflow at 300+ px; existing 500 px lock preserved at 240 px. Evidence: docs/qa/globe-browser-check.json.
+
+Final preview gate: full e2e suite PASS; npm audit 0 vulnerabilities (production and all dependencies); tracked-file/tree/history scans PASS; responsive layout, browser errors/requests, images, equal-height cards and 28 internal links PASS. 0 FAIL, 0 WARN in docs/qa/globe-verified-preview-gate/gate-report.md. Lint/typecheck/unit reused from initial passing run; standard build remains blocked as documented.
+
+Realistic Earth revision: see current revision in AGENT_HANDOFF.md. Final content QA 0 FAIL/12 existing photography WARN, sheets reviewed. Asset density/sharpness PASS. Preview build/typecheck and lint PASS. Full tests not repeated for this revision; normal Turbopack build remains unresolved. New screenshots realistic-earth-d.webp / realistic-earth-m.webp.
+
+## 10. Approved Earth release (2026-11-09)
+User approved the realistic Earth and authorized push/merge. The normal Turbopack build now passes after clearing stale generated output; no build configuration workaround is retained. Lint, typecheck and unit tests passed on the delivery branch. Full release gate and production content review recorded in docs/AGENT_HANDOFF.md. Previous unresolved-build statements above describe superseded preview stages.
+
+Final release gate: 0 FAIL/0 WARN; all scripts including normal build and full e2e PASS, audit 0, secrets PASS, responsive checks on 8 routes and 50 links PASS. Tracked evidence: docs/earth-release-validation.md. Final production content QA 0 FAIL/3 WARN, existing photo reuse retained outside approved hero scope; both contact sheets reviewed.

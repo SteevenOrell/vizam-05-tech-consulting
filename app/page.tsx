@@ -58,8 +58,8 @@ export default function HomePage() {
                 </LinkButton>
               </div>
             </div>
-            <div className="relative lg:col-span-5">
-              <HeroGlyph className="mx-auto block w-full max-w-[22rem] md:max-w-[28rem] lg:max-w-none" />
+            <div className="relative lg:col-span-5 lg:-ml-20 lg:w-[min(640px,48vw)]">
+              <HeroGlyph className="mx-auto block w-full max-w-[26rem] md:max-w-[32.5rem] lg:max-w-none" />
             </div>
           </div>
           <div className="mono-label mt-12 flex flex-wrap items-end justify-between gap-4 text-ice">

@@ -1,0 +1,6 @@
+# Realistic Earth hero
+Specific custom transparent subject required to match the approved cobalt/teal hero; existing SVG was rejected as insufficiently realistic. Stock cannot provide this exact isolated lighting/composition without editing, so use built-in generation under user authorization.
+Slot: home hero right, large 640px desktop / 360px phone. Filename: public/images/hero-earth-realistic.webp. Requested: 2048 square, 1 variant, transparent, no text. Original stays outside tracked assets. Palette midnight #070B1C, cobalt #2F4FF0, teal #1FB5D6, ice #D3F1F8. Keep text separate on left.
+Prompt: photorealistic full Earth isolated on transparency, Africa Europe and Atlantic, intricate natural coastlines, blue oceans, desert and forest textures, delicate swirling white clouds, sunlight upper left, realistic night terminator lower right, thin cyan atmospheric scattering. Premium cinematic scientific visualization, no orbit rings, no stars, no typography, no pedestal or shadow, no stylization. Entire sphere visible centered with 5 percent margin, sphere occupies 90 percent square.
+
+Actual output: 1254x1254. Source image-audit check PASS at 640 square desktop and 358 square mobile: density 1.96/3.5, full subject, sharpness variance 1266.2. Full WebP served without another optimization step to retain detail.

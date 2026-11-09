@@ -1,7 +1,7 @@
 /**
  * Geometry of the Halvaren monogram: an "H" split into two halves that meet at a hairline gap,
  * the left half set slightly higher than the right ("two halves, one decision").
- * Shared by the flat Logo and the extruded HeroGlyph. Units: a 600 × 600 view box.
+ * Used by the flat brand Logo. Units: a 600 × 600 view box.
  */
 export type Rect = { x: number; y: number; w: number; h: number };
 
