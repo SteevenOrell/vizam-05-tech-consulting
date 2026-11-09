@@ -17,13 +17,17 @@ export default function IndustriesPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Industries", path: "/industries" }]}
-        index="§ Industries"
+        index="Industries"
+        tone="ink"
+        ghost="06"
+        focus={[0.9, 0.9]}
+        seed={8}
         title="Where the stakes are operational."
         lead="We focus on sectors where technology failures stop real services. Each has its own regulators, risks and rhythms; our method stays the same."
       />
-      <section className="section-y pt-14 md:pt-20" aria-label="Industry list">
-        <div className="container-x">
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-testid="industries-grid">
+      <section className="bg-paper" aria-label="Industry list">
+        <div className="container-x section-y">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="industries-grid">
             {industries.map((i) => (
               <li key={i.slug}>
                 <IndustryCard industry={i} headingLevel={2} />

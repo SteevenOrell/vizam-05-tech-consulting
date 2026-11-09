@@ -31,6 +31,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Never advertise a width above the largest source photo (1400 px): a larger srcset candidate would be
+    // served at 1400 px anyway while the browser assumes it is bigger.
+    deviceSizes: [480, 640, 750, 828, 1080, 1200, 1400],
   },
   turbopack: {
     rules: {

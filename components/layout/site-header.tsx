@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
+import { GradientField } from "@/components/ui/gradient-field";
 import { Logo } from "@/components/ui/logo";
 import { mainNav, site } from "@/lib/content/site";
 
@@ -89,18 +90,18 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-40 border-b bg-paper transition-colors duration-300 ${
-        scrolled ? "border-rule" : "border-transparent"
-      }`}
-    >
-      <div className="container-x flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
-        <Link href="/" className="shrink-0" aria-label={`${site.name} — home`}>
-          <Logo />
+    <header className="sticky top-0 z-40 px-2 pb-2 pt-3 sm:px-4">
+      <div
+        className={`on-dark relative z-[60] mx-auto flex h-14 max-w-[85rem] items-center justify-between gap-4 rounded-full border bg-ink-2/95 pl-5 pr-1.5 text-paper backdrop-blur-md transition-shadow duration-300 ${
+          scrolled || open ? "border-rule-dark shadow-[0_10px_30px_-12px_rgb(7_11_28/0.55)]" : "border-ice/10"
+        }`}
+      >
+        <Link href="/" className="shrink-0 rounded-full" aria-label={`${site.name} — home`}>
+          <Logo tone="paper" />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-7">
+          <ul className="flex items-center gap-0.5">
             {mainNav.map((item) => {
               const active = isActive(pathname, item.href);
               return (
@@ -108,8 +109,9 @@ export function SiteHeader() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`link-underline py-1 text-[0.94rem] ${active ? "text-ink" : "text-graphite hover:text-ink"}`}
-                    style={active ? { backgroundSize: "100% 1px" } : undefined}
+                    className={`inline-flex rounded-full px-3 py-2 font-mono text-[0.75rem] uppercase tracking-[0.07em] transition-colors ${
+                      active ? "bg-ice/12 text-paper" : "text-mist hover:text-paper"
+                    }`}
                   >
                     {item.label}
                   </Link>
@@ -119,17 +121,19 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Link
             href="/contact"
-            className="hidden px-3 py-2 text-[0.94rem] text-graphite hover:text-ink lg:inline-block"
+            className={`hidden rounded-full border px-4 py-2.5 font-mono text-[0.75rem] uppercase tracking-[0.07em] transition-colors lg:inline-flex ${
+              isActive(pathname, "/contact") ? "border-ice/40 text-paper" : "border-ice/15 text-mist hover:border-ice/40 hover:text-paper"
+            }`}
             aria-current={isActive(pathname, "/contact") ? "page" : undefined}
           >
             Contact
           </Link>
           <Link
             href="/consultation"
-            className="group hidden items-center gap-1.5 rounded-[2px] bg-ink px-4 py-2.5 text-[0.9rem] font-medium text-paper transition-colors hover:bg-signal sm:inline-flex"
+            className="group hidden items-center gap-1.5 rounded-full bg-ice px-4 py-2.5 font-mono text-[0.75rem] font-medium uppercase tracking-[0.07em] text-ink transition-colors hover:bg-paper sm:inline-flex"
           >
             Request a consultation
             <ArrowUpRight aria-hidden="true" className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -137,7 +141,7 @@ export function SiteHeader() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex size-11 items-center justify-center rounded-[2px] border border-rule text-ink lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-full border border-ice/20 text-paper transition-colors hover:border-ice/50 lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -156,15 +160,15 @@ export function SiteHeader() {
             role="dialog"
             aria-modal="true"
             aria-label="Site menu"
-            className="on-dark fixed-lock fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto bg-ink text-paper lg:hidden"
+            className="on-dark fixed-lock fixed inset-0 z-50 overflow-y-auto bg-ink pt-[var(--header-h)] text-paper lg:hidden"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
             transition={{ duration: reduce ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="grid-hairlines-dark pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+            <GradientField tone="ink" focus={[0.9, 0.95]} columns={14} aspect={0.6} seed={11} />
             <nav aria-label="Mobile" className="container-x relative flex min-h-full flex-col py-8">
-              <p className="mono-label mb-6 text-mist">Index</p>
+              <p className="mono-label mb-6 text-mist">( Index )</p>
               <ul className="border-t border-rule-dark">
                 {[...mainNav, { href: "/contact", label: "Contact" }].map((item, i) => {
                   const active = isActive(pathname, item.href);
@@ -174,9 +178,9 @@ export function SiteHeader() {
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         onClick={() => close(false)}
-                        className="flex items-baseline gap-4 py-4 text-[1.6rem] tracking-[-0.02em] hover:text-phosphor"
+                        className="flex items-baseline gap-4 py-4 text-[1.75rem] font-semibold tracking-[-0.035em] hover:text-phosphor"
                       >
-                        <span className="mono-label w-8 text-mist">{String(i + 1).padStart(2, "0")}</span>
+                        <span className="mono-label w-8 font-normal text-mist">{String(i + 1).padStart(2, "0")}</span>
                         <span className={active ? "text-phosphor" : undefined}>{item.label}</span>
                       </Link>
                     </li>
@@ -186,7 +190,7 @@ export function SiteHeader() {
               <Link
                 href="/consultation"
                 onClick={() => close(false)}
-                className="mt-8 inline-flex items-center justify-between gap-2 rounded-[2px] bg-phosphor px-5 py-4 font-medium text-ink"
+                className="mt-8 inline-flex items-center justify-between gap-2 rounded-full bg-ice px-6 py-4 font-mono text-[0.85rem] font-medium uppercase tracking-[0.06em] text-ink"
               >
                 Request a consultation
                 <ArrowUpRight aria-hidden="true" className="size-5" />

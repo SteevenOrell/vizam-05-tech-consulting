@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { GradientField } from "@/components/ui/gradient-field";
+import { MicroLabel } from "@/components/ui/primitives";
 
 export default function ErrorPage({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -10,26 +12,31 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
   }, [error]);
 
   return (
-    <section className="relative overflow-hidden border-b border-rule" aria-labelledby="err-title">
-      <div className="grid-hairlines pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
-      <div className="container-x section-y relative">
-        <p className="mono-label text-danger">Error · Something went wrong</p>
-        <h1 id="err-title" ref={headingRef} tabIndex={-1} className="mt-6 max-w-[18ch] text-display focus:outline-none">
+    <section
+      className="on-dark relative -mt-[var(--header-h)] overflow-hidden rounded-b-[var(--radius-panel)] bg-ink text-paper"
+      aria-labelledby="err-title"
+    >
+      <GradientField tone="ink" focus={[0.9, 0.85]} columns={24} seed={500} />
+      <div className="container-x section-y relative pt-[calc(var(--header-h)+5rem)] md:pt-[calc(var(--header-h)+7rem)]">
+        <MicroLabel dark className="text-ice">
+          Error · Something went wrong
+        </MicroLabel>
+        <h1 id="err-title" ref={headingRef} tabIndex={-1} className="mt-6 max-w-[18ch] text-display-xl focus:outline-none">
           This page could not be displayed.
         </h1>
-        <p className="mt-6 max-w-xl text-[1.15rem] text-graphite">
+        <p className="mt-6 max-w-xl text-[1.15rem] text-paper">
           An unexpected error occurred. You can try again, or return to the home page.
-          {error.digest ? <span className="mt-2 block font-mono text-sm text-slate">Reference: {error.digest}</span> : null}
+          {error.digest ? <span className="mt-2 block font-mono text-sm text-mist">Reference: {error.digest}</span> : null}
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <button
             type="button"
             onClick={reset}
-            className="inline-flex min-h-12 items-center rounded-[2px] bg-ink px-5 font-medium text-paper hover:bg-signal"
+            className="inline-flex min-h-12 items-center rounded-full bg-ice px-6 font-mono text-[0.8rem] font-medium uppercase tracking-[0.06em] text-ink transition-colors hover:bg-paper"
           >
             Try again
           </button>
-          <Link href="/" className="inline-flex min-h-12 items-center rounded-[2px] border border-ink px-5 font-medium hover:bg-ink hover:text-paper">
+          <Link href="/" className="inline-flex min-h-12 items-center rounded-full border border-ice/35 bg-ink/55 px-6 font-mono text-[0.8rem] font-medium uppercase tracking-[0.06em] text-paper transition-colors hover:border-phosphor hover:text-phosphor">
             Back to home
           </Link>
         </div>

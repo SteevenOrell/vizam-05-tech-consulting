@@ -4,7 +4,7 @@
 export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <html lang="en-GB">
-      <body style={{ margin: 0, background: "#f2f1ec", color: "#0c1014", fontFamily: "system-ui, sans-serif" }}>
+      <body style={{ margin: 0, background: "#f4f1ea", color: "#070b1c", fontFamily: "system-ui, sans-serif" }}>
         <main style={{ maxWidth: 640, margin: "0 auto", padding: "15vh 1.5rem" }}>
           <p style={{ fontFamily: "monospace", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>
             Halvaren · Error
@@ -16,7 +16,7 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
           <button
             type="button"
             onClick={reset}
-            style={{ marginTop: 16, padding: "12px 20px", background: "#0c1014", color: "#f2f1ec", border: 0, borderRadius: 2, cursor: "pointer" }}
+            style={{ marginTop: 16, padding: "12px 20px", background: "#070b1c", color: "#f4f1ea", border: 0, borderRadius: 999, cursor: "pointer" }}
           >
             Try again
           </button>

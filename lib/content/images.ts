@@ -2,13 +2,6 @@ import type { ImageRef } from "./types";
 
 /** Every photograph used on the site. Credits: docs/media-credits.md (Unsplash License). */
 export const images = {
-  hero: {
-    src: "/images/hero-reflection.webp",
-    alt: "A long concrete wall reflected in still, dark water",
-    caption: "Concrete, water, light",
-    width: 2000,
-    height: 1500,
-  },
   stairs: {
     src: "/images/stairs-shadow.webp",
     alt: "Concrete stairs casting sharp diagonal shadows across a pale wall",

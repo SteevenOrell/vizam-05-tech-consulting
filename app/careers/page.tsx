@@ -26,7 +26,11 @@ export default function CareersPage() {
     <>
       <PageHeader
         crumbs={[{ name: "Careers", path: "/careers" }]}
-        index="§ Careers"
+        index="Careers"
+        tone="ink"
+        ghost="JOIN"
+        focus={[0.92, 0.9]}
+        seed={26}
         title="Work on decisions that matter."
         lead="What working at Halvaren would be like — and the kind of people the concept is designed around."
       >
@@ -38,16 +42,16 @@ export default function CareersPage() {
         </div>
       </PageHeader>
 
-      <section className="section-y" aria-labelledby="culture-title">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
+      <section className="bg-paper" aria-labelledby="culture-title">
+        <div className="container-x section-y grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionIndex n="01" label="How we would work" />
             <h2 id="culture-title" className="mt-5 text-h2">
               Senior, small, deliberate.
             </h2>
-            <ul className="mt-8 border-t border-ink">
+            <ul className="card mt-8 divide-y divide-rule px-5">
               {values.map((v) => (
-                <li key={v.title} className="border-b border-rule py-5">
+                <li key={v.title} className="py-5">
                   <h3 className="text-[1.15rem] leading-tight">{v.title}</h3>
                   <p className="mt-1.5 text-graphite">{v.text}</p>
                 </li>
@@ -60,18 +64,18 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section className="section-y border-t border-rule bg-paper-2" aria-labelledby="roles-title">
-        <div className="container-x">
+      <section className="bg-paper-2" aria-labelledby="roles-title">
+        <div className="container-x section-y">
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <SectionIndex n="02" label="Demo roles" />
-              <h2 id="roles-title" className="mt-5 text-h2">
+              <h2 id="roles-title" className="mt-5 text-display">
                 Illustrative openings.
               </h2>
             </div>
             <p className="mono-label text-slate">{roles.length} demo listings · not open for applications</p>
           </div>
-          <div className="mb-3 hidden grid-cols-[minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_2.5rem] gap-8 md:grid">
+          <div className="mb-3 hidden grid-cols-[minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_2.5rem] gap-8 px-7 md:grid">
             <span className="mono-label text-slate">Role</span>
             <span className="mono-label text-slate">Practice</span>
             <span className="mono-label text-slate">Location</span>
