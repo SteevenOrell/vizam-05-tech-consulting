@@ -22,3 +22,5 @@ Downloaded 2026-11-05 via the site-media scripts (Unsplash API; download events 
 | industry-public.webp | [Sergey Leont'ev](https://unsplash.com/@addictfuji) | [Unsplash A1X9xvEIMy4](https://unsplash.com/photos/a-long-row-of-white-columns-next-to-a-building-A1X9xvEIMy4) |
 
 The Halvaren wordmark and all diagrams are original work made in code (SVG/CSS) for this concept.
+
+The home hero Earth is AI-generated (Codex), 2026-11-09. Brief: [hero-earth-realistic.md](image-requests/hero-earth-realistic.md). Actual source and transparent WebP: 1254 × 1254. The user approved this realistic visual; it is a decorative generated depiction, not a scientific map.
