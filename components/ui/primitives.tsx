@@ -103,7 +103,7 @@ export function Plate({
 export function Tag({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[0.7rem] uppercase tracking-[0.06em] ${
+      className={`inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[0.75rem] uppercase tracking-[0.06em] ${
         dark ? "border-rule-dark text-mist" : "border-rule text-graphite"
       }`}
     >
@@ -114,7 +114,7 @@ export function Tag({ children, dark = false }: { children: ReactNode; dark?: bo
 
 export function IllustrativeBadge({ long = false }: { long?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 font-mono text-[0.7rem] uppercase tracking-[0.06em] text-phosphor">
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 font-mono text-[0.75rem] uppercase tracking-[0.06em] text-phosphor">
       <FlaskConical aria-hidden="true" className="size-3.5" />
       {long ? "Illustrative scenario — not a real client" : "Illustrative scenario"}
     </span>

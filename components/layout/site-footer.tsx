@@ -81,7 +81,7 @@ export function SiteFooter() {
         <div className="mt-6 grid gap-4 border-t border-rule-dark pt-6 text-sm text-mist md:grid-cols-[1fr_auto] md:items-end">
           <div>
             <p className="font-medium text-paper">
-              <span className="mr-2 inline-block rounded-full bg-ice px-2 py-0.5 font-mono text-[0.7rem] uppercase tracking-[0.08em] text-ink">
+              <span className="mr-2 inline-block rounded-full bg-ice px-2 py-0.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink">
                 Concept
               </span>
               {site.conceptNotice}

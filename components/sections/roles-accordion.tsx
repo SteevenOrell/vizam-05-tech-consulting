@@ -29,7 +29,7 @@ export function RolesAccordion({ roles }: { roles: Role[] }) {
               >
                 <span className="text-[1.3rem] leading-tight tracking-[-0.02em] md:text-[1.5rem]">
                   {r.title}
-                  <span className="ml-3 inline-block rounded-full bg-ink px-2 py-0.5 align-middle font-mono text-[0.68rem] uppercase tracking-[0.06em] text-ice">
+                  <span className="ml-3 inline-block rounded-full bg-ink px-2 py-0.5 align-middle font-mono text-[0.75rem] uppercase tracking-[0.06em] text-ice">
                     Demo role
                   </span>
                 </span>

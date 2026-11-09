@@ -92,11 +92,11 @@ used (both ≥ 5.3:1 even on full cobalt).
 
 - **Geist** (variable, via `next/font`, self-hosted, no external requests). Headings weight 600, tracking −0.035em.
   The hero heading is uppercase, line-height 0.92.
-- **Geist Mono** for micro labels, nav links, buttons, tags and metadata: uppercase, 0.72–0.8rem, +0.06–0.08em.
+- **Geist Mono** for micro labels, nav links, buttons, tags and metadata: uppercase, 0.75–0.8rem, +0.06–0.08em.
 - **Newsreader (serif) dropped**: the new identity is all-grotesque; Insights articles use Geist at 1.125rem / 1.7.
 - Scale (`clamp()`): hero `clamp(1.9rem, 9.4vw, 4.75rem)`, from 1024 px `clamp(3.5rem, 5.5vw, 6.5rem)` (sized so
   "DELIBERATELY." fits its column at 300 px); display-xl `clamp(2.6rem, 7.2vw, 6.6rem)`; display
-  `clamp(2.1rem, 4.6vw, 4.2rem)`; h2 `clamp(1.75rem, 3.2vw, 2.75rem)`; body 1.0625rem / 1.6; micro 0.72rem.
+  `clamp(2.1rem, 4.6vw, 4.2rem)`; h2 `clamp(1.75rem, 3.2vw, 2.75rem)`; body 1.0625rem / 1.6; micro 0.75rem.
 
 ## 6. Spacing, layout and shape
 
@@ -152,14 +152,23 @@ Purposeful, quiet, mechanical; never bouncy; no infinite loops (WCAG 2.2.2).
 | `SectionIndex` | `components/ui/primitives.tsx` | `( 02 · Services )` label above every section heading |
 | `MicroLabel` | `components/ui/primitives.tsx` | Free bracketed mono line, e.g. hero kicker |
 | `LinkButton` | `components/ui/primitives.tsx` | Pill buttons: `primary`, `secondary` (light), `on-dark`, `ghost-dark` |
+| `PageHeader` | `components/sections/page-header.tsx` | Every inner page. `tone`: `aurora` (bright field, key pages), `ink` (quiet field), `paper` (light, long-form). Optional `ghost` word and `size` |
+| `CtaBand` | `components/sections/cta-band.tsx` | Closing rounded aurora panel inside a paper strip, ends every page except Contact, Consultation and Privacy |
+| `ServicesIndex` | `components/sections/cards.tsx` | Bento of six service cards with aurora ghost index; `feature` makes cards 0, 3 and 5 wide on desktop |
 | `Tag`, `IllustrativeBadge`, `Notice`, `TextLink`, `Plate` | `components/ui/primitives.tsx` | Pill tags, labels, rounded notice and photo frame |
 | `.bg-aurora`, `.aurora-rule`, `.pill` | `app/globals.css` | Gradient fill, gradient hairline, full radius |
+
+Slice 2 applied this to every page (2026-11-08). Section rhythm used: paper → paper-2 → dark ink band → paper → ice-field band →
+dark aurora band → paper → aurora CTA panel. Aurora headers: Home, About, Services, Case studies, Consultation, 404; ink
+headers: Industries, Insights, Careers, Contact and the detail pages; paper header: Privacy; the article header is paper with
+an ice field. Dark-band cards are `Card tone="ink"` or `"glass"`; text inside a header or band that inherits `text-paper`
+must sit on a card that sets its own colour (`Notice` sets `text-ink`).
 
 Page recipe: a page header on `ink` or `aurora` with a `GradientField` (focus away from the heading) and the
 heading in `text-display-xl`; light content sections on `paper`/`paper-2` with `SectionIndex` + `text-h2`; lists
 of items as bento grids of `Card` (equal height, `data-card` kept for the layout test); at most one aurora-tone
-section between light ones; end with the dark CTA band and footer. Retire `grid-hairlines`, `DrawLines` and
-square `rounded-[2px]` corners as pages are restyled.
+section between light ones; end with the dark CTA band and footer. `grid-hairlines`, `DrawLines` and square `rounded-[2px]`
+corners are retired (removed in slice 2).
 
 ## 11. Accessibility stance
 

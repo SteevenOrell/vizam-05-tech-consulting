@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Independent technology & business consulting",
     description:
-      "Halvaren (a fictional VIZAM concept firm) helps regulated and asset-heavy organisations make technology decisions deliberately: strategy, data and AI, cloud, resilience and delivery.",
+      "Halvaren, a fictional VIZAM concept firm, helps regulated and asset-heavy organisations make technology decisions deliberately.",
     path: "/",
   }),
   title: { absolute: `${site.name} — ${site.tagline}` },

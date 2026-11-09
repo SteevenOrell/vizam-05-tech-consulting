@@ -39,7 +39,7 @@
   --text-display--line-height: 1;
   --text-h2: clamp(1.75rem, 3.2vw, 2.75rem);
   --text-h2--line-height: 1.06;
-  --text-micro: 0.72rem;
+  --text-micro: 0.75rem;
   --text-micro--line-height: 1.4;
 
   --radius-card: 1.5rem;
@@ -146,7 +146,7 @@
 
   .mono-label {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     line-height: 1.4;
     letter-spacing: 0.08em;
     text-transform: uppercase;

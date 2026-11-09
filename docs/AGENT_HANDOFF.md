@@ -1,6 +1,6 @@
 # Agent handoff — vizam-05-tech-consulting (Halvaren, VIZAM concept project 05)
 
-_Last updated: 2026-11-08 by the theme-refresh slice 1 agent (design direction, tokens, global shell)_
+_Last updated: 2026-11-08 by the theme-refresh slice 2 agent (all pages and shared components restyled)_
 
 ## Objective
 Premium corporate site for a fictional international technology and business consulting firm ("Halvaren
@@ -70,7 +70,15 @@ Advisory"), built as a VIZAM portfolio concept. Fictional company: say so in the
 Home screenshots at 240/390/768/1440 (normal and reduced motion) and menus checked by eye; no overflow from 300 px,
 `#root` 500 px at 240 px.
 
-### Slice 2 (next): restyle the remaining pages with the system
+### Slice 2 done (2026-11-08): all pages and shared components restyled
+Page header (tones aurora/ink/paper, ghost word), CTA panel, bento cards, pill forms, decision record, pagination, accordion,
+filters; Home 01-08; about, services (+detail), industries (+detail), case studies (+detail), insights (+articles), careers,
+contact, consultation, privacy, 404/error/loading; Open Graph image. `images.hero` dropped (file, entry and credit removed; 14
+Unsplash WebP remain). `DrawLines` and `.grid-hairlines` removed. `next.config.ts` caps `images.deviceSizes` at 1400. Mono labels
+now 12 px. Screenshots in `docs/screenshots/` refreshed (26 WebP incl. `home-hero-*`). Checks table: `docs/report.md` section 3a.
+Gate: lint, typecheck, 45 unit, build, 79/79 e2e, audit 0, secret scan, quality gate 0 FAIL, content QA 0 FAIL. No push/PR/deploy.
+
+### Slice 2 plan (kept for reference)
 Use `docs/design-direction.md` §10. Replace `grid-hairlines`, `DrawLines`, `rounded-[2px]`, `§` indices:
 - Shared: `components/sections/page-header.tsx` (dark/aurora header with GradientField), `cta-band.tsx` (aurora),
   `cards.tsx` (Card surfaces, keep `data-card` + equal height), `components/forms/*` (rounded fields, pill submit),
@@ -126,8 +134,8 @@ Phase D re-run after fixes: lint pass; typecheck pass; `npm test` 40/40; build p
 79/79 (12.0 min, port 3105); `npm audit` 0 vulnerabilities; secret scan pass (127 files, 18 commits, 17 rules).
 
 ## Next step
-Theme refresh slice 2 (Sonnet): restyle the pages listed above on `vizam/theme-refresh`, starting with
-`page-header.tsx`, `cta-band.tsx` and `cards.tsx`, then Home sections 01–08.
+Steeven reviews `vizam/theme-refresh` (taste). Then, on approval: push the branch, open the PR, optional Vercel preview. Not done:
+Lighthouse, manual assistive-tech test, portfolio video refresh.
 
 ## Waiting for approval
 - Vercel link/preview and any production deploy (Steeven).

@@ -109,7 +109,7 @@ export function SiteHeader() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`inline-flex rounded-full px-3 py-2 font-mono text-[0.74rem] uppercase tracking-[0.07em] transition-colors ${
+                    className={`inline-flex rounded-full px-3 py-2 font-mono text-[0.75rem] uppercase tracking-[0.07em] transition-colors ${
                       active ? "bg-ice/12 text-paper" : "text-mist hover:text-paper"
                     }`}
                   >
@@ -124,7 +124,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-1.5">
           <Link
             href="/contact"
-            className={`hidden rounded-full border px-4 py-2.5 font-mono text-[0.74rem] uppercase tracking-[0.07em] transition-colors lg:inline-flex ${
+            className={`hidden rounded-full border px-4 py-2.5 font-mono text-[0.75rem] uppercase tracking-[0.07em] transition-colors lg:inline-flex ${
               isActive(pathname, "/contact") ? "border-ice/40 text-paper" : "border-ice/15 text-mist hover:border-ice/40 hover:text-paper"
             }`}
             aria-current={isActive(pathname, "/contact") ? "page" : undefined}
@@ -133,7 +133,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/consultation"
-            className="group hidden items-center gap-1.5 rounded-full bg-ice px-4 py-2.5 font-mono text-[0.74rem] font-medium uppercase tracking-[0.07em] text-ink transition-colors hover:bg-paper sm:inline-flex"
+            className="group hidden items-center gap-1.5 rounded-full bg-ice px-4 py-2.5 font-mono text-[0.75rem] font-medium uppercase tracking-[0.07em] text-ink transition-colors hover:bg-paper sm:inline-flex"
           >
             Request a consultation
             <ArrowUpRight aria-hidden="true" className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

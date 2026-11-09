@@ -10,8 +10,11 @@ concept, not a client commission._
 - **Content:** typed local content in `lib/content` (services, industries, case studies, insights, careers, images), CMS-ready,
   no CMS connected. 42 static pages, plus sitemap, robots, a generated Open Graph image and JSON-LD.
 - **Forms:** `lib/forms` holds Zod schemas, server actions and shared processing (honeypot, timing check, rate limit, validation).
-- **Design:** original direction, no external reference (see `docs/design-direction.md`, `docs/plan.md`). Porcelain-and-ink
-  palette, one phosphor accent, visible coordinate grid, mono section indices, "decision records" as the signature component.
+- **Design (theme 2, "Aurora Ledger", branch `vizam/theme-refresh`):** midnight base with cobalt-teal-ice gradient and pixel-mosaic
+  fields (`GradientField`), warm paper sections, huge tight headings, mono bracket labels, ghost numerals, rounded bento cards,
+  floating pill navigation, split-H monogram, "decision records" as the signature component. Every page uses the same primitives
+  with its own composition (aurora headers on Home, About, Services, Case studies, Consultation and 404; ink headers elsewhere;
+  light header on Privacy and articles). Spec: `docs/design-direction.md`. Theme 1 (porcelain and phosphor) is superseded.
   No logos, testimonials or statistics are shown, because none exist. Photography: Unsplash only (public repo), WebP only,
   credited in `docs/media-credits.md`. No video, voice or AI images.
 - **Layout rule:** below 250 px the layout locks at 500 px and pans (`#root` in `app/layout.tsx`), as required by project rules.
@@ -22,7 +25,28 @@ All planned pages and components are built, tested and committed on the build br
 sign-off are done (verdict: SIGN-OFF, see section 4). Not yet done: integration into `vizam/initial-build`, push, PR, Vercel preview, and any deploy.
 Lighthouse / performance measurement has **not** been run.
 
-## 3. Checks (run 2026-11-06, real output, Slice 1)
+## 3a. Checks, theme refresh slice 2 (2026-11-08, branch `vizam/theme-refresh`, real output)
+
+| Check | Command | Result |
+|---|---|---|
+| Lint | `npm run lint` | pass, no warnings |
+| Typecheck | `npm run typecheck` | pass |
+| Unit | `npm test` | pass, 5 files, 45 tests |
+| Build | `npm run build` | pass, 42 static pages |
+| E2E + axe | `npx playwright test` (production build, port 3105) | pass, 79/79 (6.1 min) |
+| Audit | `npm audit` | 0 vulnerabilities |
+| Secret scan | `node scripts/secret-scan.mjs` | pass: 132 tree files, 26 commits, 17 rules, none found |
+| Quality gate | `gate.mjs --skip build,e2e` | 0 FAIL, 0 WARN: no horizontal scroll from 300 px (36 routes), 500 px lock below 250 px, no console errors, no broken images, equal-height cards, 52 internal links, tracked-file check |
+| Content QA | `content-qa.mjs` (36 routes) | 0 FAIL, 213 WARN (kept, see below) |
+
+Content QA fixes made in this slice: upscaled-image FAILs (22) traced to Next advertising srcset widths above the 1400 px
+sources, fixed with `images.deviceSizes` capped at 1400; Home meta description shortened from 182 to under 160 characters; micro
+labels raised to 12 px (11 px warnings gone). WARNs kept: "slightly soft on retina" (125, computed from the `sizes` hint, delivered
+images are at least 2x the slot); "same image twice on a page" (industry photos reused by their scenario or service cards, 25 or so);
+"testimonial" on About and Privacy (the copy says none exist). I looked at the Home and Insights contact sheets and full-page
+screenshots of every route at 240, 300, 390, 768 (and 1440 for all pages). Lighthouse and manual assistive-technology testing: not run.
+
+## 3. Checks (run 2026-11-06, real output, Slice 1, theme 1 for reference)
 
 | Check | Command | Result |
 |---|---|---|
