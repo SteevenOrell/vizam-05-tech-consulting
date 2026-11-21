@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SkipLink } from "@/components/layout/skip-link";
 import { site } from "@/lib/content/site";
 import { jsonLdString, organisationJsonLd } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdString(organisationJsonLd()) }}
         />
+        <Analytics />
       </body>
     </html>
   );
